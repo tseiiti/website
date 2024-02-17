@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ.keys() else "django-insecure-django-insecure-django-insecure-django-insecure-dj"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ["DEBUG"] == 'True' if "DEBUG" in os.environ.keys() else True
+DEBUG = os.environ["DEBUG"] == 'True' if "DEBUG" in os.environ.keys() else False
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app"]
 
@@ -76,12 +76,12 @@ WSGI_APPLICATION = '_website.wsgi.app'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': BASE_DIR / 'db.sqlite3',
-	}
-}
+# DATABASES = {
+# 	'default': {
+# 		'ENGINE': 'django.db.backends.sqlite3',
+# 		'NAME': BASE_DIR / 'db.sqlite3',
+# 	}
+# }
 
 
 # Password validation
