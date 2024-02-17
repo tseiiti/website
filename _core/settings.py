@@ -27,7 +27,7 @@ INSTALLED_APPS = [
   'django.contrib.messages',
   'django.contrib.staticfiles',
   'django_bootstrap5',
-  'website'
+  '_essential'
 ]
 
 MIDDLEWARE = [
@@ -40,7 +40,7 @@ MIDDLEWARE = [
   'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'auxiliar.urls'
+ROOT_URLCONF = '_core.urls'
 
 TEMPLATES = [
   {
@@ -58,7 +58,7 @@ TEMPLATES = [
   },
 ]
 
-WSGI_APPLICATION = 'auxiliar.wsgi.app'
+WSGI_APPLICATION = '_core.wsgi.app'
 
 
 # Database
