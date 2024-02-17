@@ -26,7 +26,7 @@ SECRET_KEY = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ.keys() else 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ["DEBUG"] == 'True' if "DEBUG" in os.environ.keys() else True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app"]
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
+  'django_bootstrap5',
 	'website'
 ]
 
@@ -56,7 +57,7 @@ ROOT_URLCONF = '_website.urls'
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [],
+		'DIRS': ["templates"],
 		'APP_DIRS': True,
 		'OPTIONS': {
 			'context_processors': [
@@ -105,9 +106,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
@@ -117,9 +118,33 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
+STATIC_ROOT = "/static"
+STATICFILES_DIRS = ["static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SIDENAV = [
+  { "type": "head", "name": "Configuração" },
+  { "type": "item", "name": "Admin", "icon": "cog", "link": "/admin" },
+  { "type": "menu", "name": "Temas", "icon": "palette", "links": [
+    { "desc": "Dark", "link": "javascript:document.querySelector('#layoutSidenav_nav nav').classList.remove('sb-sidenav-light');document.querySelector('#layoutSidenav_nav nav').classList.add('sb-sidenav-dark');" }, 
+    { "desc": "Light", "link": "javascript:document.querySelector('#layoutSidenav_nav nav').classList.remove('sb-sidenav-dark');document.querySelector('#layoutSidenav_nav nav').classList.add('sb-sidenav-light');" }, 
+  ]},
+  { "type": "divi" },
+  { "type": "head", "name": "Minhas páginas" },
+  { "type": "menu", "name": "Páginas", "icon": "folder", "links": [
+    { "desc": "Modelo", "link": "/modelo/list" }, 
+    { "desc": "Geeks", "link": "#" }, 
+    { "desc": "Polls", "link": "#" }, 
+  ]},
+  { "type": "menu", "name": "Icones", "icon": "grin", "links": [
+    { "desc": "Regular", "link": "#" }, 
+    { "desc": "Solid", "link": "#" }, 
+    { "desc": "Brands", "link": "#" }, 
+  ]},
+  { "type": "divi" },
+]
