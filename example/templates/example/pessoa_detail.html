@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="mt-5 mb-4">
+    {% include "input_disabled.html" with label="Id" value=object.id %}
+    {% include "input_disabled.html" with label="Nome" value=object.nome %}
+    {% include "input_disabled.html" with label="E-mail" value=object.email %}
+    {% include "input_disabled.html" with label="CPF" value=object.cpf %}
+  </div>
+  <a class="btn btn-secondary" href="{% url 'example:list' %}">Voltar</a>
+{% endblock %}

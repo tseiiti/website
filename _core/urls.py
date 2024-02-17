@@ -8,4 +8,5 @@ urlpatterns = [
   path("signin", views.signin, name="signin"),
   path("signout", views.signout, name="signout"),
   path('admin/', admin.site.urls),
+  path("example/", include("example.urls")),
 ]

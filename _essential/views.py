@@ -43,7 +43,7 @@ def signup(request):
     user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
     user = authenticate(username=username, password=password)
     login(request, user)
-    reverse_lazy("modelo:list")
+    reverse_lazy("example:list")
 
 def signin(request):
   if request.method == "GET":
@@ -54,7 +54,7 @@ def signin(request):
     user = authenticate(username=username, password=password)
     if user:
       login(request, user)
-      reverse_lazy("modelo:list")
+      reverse_lazy("example:list")
     else:
       return render(request, "signin.html", { "errors": [{ "field": "username", "message": "Usuário/Senha inválido" }]})
 

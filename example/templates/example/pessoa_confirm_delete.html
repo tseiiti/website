@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <form method="post" action=".">
+    {% csrf_token %}
+    <div class="mt-5 mb-4">
+      {% include "input_disabled.html" with label="Id" value=object.id %}
+      {% include "input_disabled.html" with label="Nome" value=object.nome %}
+      {% include "input_disabled.html" with label="E-mail" value=object.email %}
+      {% include "input_disabled.html" with label="CPF" value=object.cpf %}
+    </div>
+    <p class="mt-4 mb-2">Tem certeza que deseja apagar o registro "{{ object }}"?</p>
+    <input class="btn btn-danger" type="submit" value="Confirmar">
+    <a class="btn btn-secondary" href="{% url 'example:list' %}">Cancelar</a>
+  </form>
+{% endblock %}

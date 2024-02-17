@@ -27,7 +27,8 @@ INSTALLED_APPS = [
   'django.contrib.messages',
   'django.contrib.staticfiles',
   'django_bootstrap5',
-  '_essential'
+  '_essential',
+  'example'
 ]
 
 MIDDLEWARE = [
@@ -45,7 +46,7 @@ ROOT_URLCONF = '_core.urls'
 TEMPLATES = [
   {
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    'DIRS': ["templates"],
+    'DIRS': [ "templates" ],
     'APP_DIRS': True,
     'OPTIONS': {
       'context_processors': [
@@ -128,7 +129,7 @@ SIDENAV = [
   { "type": "divi" },
   { "type": "head", "name": "Minhas páginas" },
   { "type": "menu", "name": "Páginas", "icon": "folder", "links": [
-    { "desc": "Modelo", "link": "/modelo/list" }, 
+    { "desc": "Exemplo", "link": "/example/list" }, 
     { "desc": "Geeks", "link": "#" }, 
     { "desc": "Polls", "link": "#" }, 
   ]},
