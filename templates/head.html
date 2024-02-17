@@ -1,0 +1,35 @@
+{% load static %}
+{% load django_bootstrap5 %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="BDN - Big Data para Negócios" />
+  <meta name="author" content="Oscar Taniguchi" />
+  <link id="page_favicon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAETT//9E0///RNP//0TT//9E0///RNP//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAETT//9E0///RNP//0TT//9E0/////////////9E0///AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABE0///RNP//0TT//9E0///RNP/////////////RNP//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARNP//0TT//9E0///RNP//0TT//9E0///RNP//0TT//8AAAAAAAAAAAAAAAAAAAAAAAAAAJ9wOv+fcDr/n3A6/0TT/5hE0///RNP//0TT//9E0///RNP//0TT//9E0///RNP//0TT//9E0///AAAAAJ9wOv+fcDr/n3A6/59wOv+fcDqVRNP//0TT//9E0///RNP//0TT//9E0///RNP//0TT//9E0///RNP//0TT//+fcDr/n3A6/59wOv+fcDr/RNP/mETT//9E0///RNP//0TT//9E0///RNP//0TT//9E0///RNP//0TT//9E0///n3A6/59wOv+fcDr/n3A6/59wOpVE0/+YRNP/mETT/5hE0/+YRNP/mETT/5hE0///RNP//0TT//9E0///RNP//59wOv+fcDr/n3A6/59wOv+fcDr/n3A6lZ9wOpWfcDqVn3A6lZ9wOpWfcDqVn3A6lUTT//9E0///RNP//0TT//+fcDr/n3A6/59wOv+fcDr/n3A6/59wOv+fcDr/n3A6/59wOv+fcDr/n3A6/0TT/5hE0///RNP//0TT//9E0///n3A6/59wOv+fcDr/n3A6/59wOv+fcDr/n3A6/59wOv+fcDr/n3A6/59wOv+fcDqVRNP//0TT//9E0///RNP//wAAAACfcDr/n3A6/59wOv+fcDr/n3A6/59wOv+fcDr/n3A6/59wOv+fcDr/RNP/mETT//9E0///RNP//wAAAAAAAAAAAAAAAAAAAAAAAAAAn3A6/59wOv+fcDr/n3A6/59wOv+fcDr/n3A6/59wOv8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ9wOv///////////59wOv+fcDr/n3A6/59wOv+fcDr/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACfcDr///////////+fcDr/n3A6/59wOv+fcDr/n3A6/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ9wOv+fcDr/n3A6/59wOv+fcDr/n3A6/wAAAAAAAAAAAAAAAAAAAAAAAAAA+B8AAPAPAADwDwAA8A8AAIABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAQAA8A8AAPAPAADwDwAA+B8AAA==" rel="icon" type="image/x-icon">
+  <title>
+    {% if title %}
+    BDN | {{title}}
+    {% else %}
+    BDN | Big Data para Negócios
+    {% endif %}
+  </title>
+
+  <!-- Bootstrap CSS -->
+  {% bootstrap_css %}
+
+  <!-- Bootstrap JavaScript if it is in head -->
+  {% if 'javascript_in_head'|bootstrap_setting %}
+    {% bootstrap_javascript %}
+    <script src={% static "js/scripts.js" %}></script>
+  {% endif %}
+
+  <!-- outros scripts -->
+  <link href={% static "css/styles.css" %} rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+
+  <!-- pra usar ícones svg -->
+  <!-- <script type="text/javascript" src="https://unpkg.com/external-svg-loader@latest/svg-loader.min.js" async></script> -->
+
+  {% block extra_head %}{% endblock %}
+</head>

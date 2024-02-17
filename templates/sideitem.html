@@ -1,0 +1,51 @@
+{% if item.type == "divi" %}
+  <hr class="mt-3 mb-0 mx-3">
+
+{% elif item.type == "head" %}
+  <div class="sb-sidenav-menu-heading pt-2">{{ item.name }}</div>
+
+{% elif item.type == "item" %}
+  <a class="nav-link" href="{{ item.link }}">
+    <div class="sb-nav-link-icon"><i class="fas fa-{{ item.icon }}"></i></div>
+    {{ item.name }}
+  </a>
+
+{% elif item.type == "menu" %}
+  <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse{{ item_id }}" aria-expanded="false" aria-controls="collapse{{ item_id }}">
+    <div class="sb-nav-link-icon"><i class="fas fa-{{ item.icon }}"></i></div>
+    {{ item.name }}
+    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+  </a>
+  <div class="collapse" id="collapse{{ item_id }}" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+    <nav class="sb-sidenav-menu-nested nav">
+      {% for l in item.links %}
+        <a class="nav-link" href="{{ l.link }}">{{ l.desc }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+
+{% elif item.type == "nest" %}
+  <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse{{ item_id }}" aria-expanded="false" aria-controls="collapse{{ item_id }}">
+    <div class="sb-nav-link-icon"><i class="fas fa-{{ item.icon }}"></i></div>
+    {{ item.name }}
+    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+  </a>
+  <div class="collapse" id="collapse{{ item_id }}" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+    <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordion{{ item_id }}">
+      {% for sub_item in item.sub_itens %}
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="pagesCollapse{{ forloop.counter }}">
+          {{ sub_item.name }}
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="pagesCollapse{{ forloop.counter }}" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion{{ item_id }}">
+          <nav class="sb-sidenav-menu-nested nav">
+            {% for si in sub_item.links %}
+              <a class="nav-link" href="{{ si.link }}">{{ si.desc }}</a>
+            {% endfor %}
+          </nav>
+        </div>
+      {% endfor %}
+    </nav>
+  </div>
+  
+{% endif %}
