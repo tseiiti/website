@@ -52,18 +52,14 @@ def signin(request):
 		else:
 			post = request.POST
 			form = SignInForm(post)
-			# form = SignInForm()
-			# form.is_valid()
 			form.add_error(None, "Usuário / Senha inválido")
 			form.add_error("password", "")
 			form.add_error("username", "")
 			return render(request, "signin.html", { "form": form })
-			# return render(request, "signin.html", { "errors": [{ "field": "username", "message": "Usuário/Senha inválido" }]})
 
-@login_required(login_url="")
 def signout(request):
-	if request.method == "GET":
-		return render(request, "signout.html")
-	else:
+	# if request.method == "GET":
+	# 	return render(request, "signout.html")
+	# else:
 		logout(request)
-		return HttpResponse("Logout")
+		return HttpResponseRedirect(reverse("/"))

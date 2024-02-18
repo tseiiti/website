@@ -1,26 +1,7 @@
 # from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
-from django.views.generic.base import ContextMixin
 from django.urls import reverse_lazy
-from django.conf import settings
-from .models import Pessoa
-
-class MyContext(ContextMixin):
-  def get_title(self):
-    title = None
-    class_name = self.__class__.__name__
-    if class_name == "PessoaList": title = "Listar Pessoas"
-    elif class_name == "PessoaCreate": title = "Criar Pessoa"
-    elif class_name == "PessoaUpdate": title = "Atualizar Pessoa"
-    elif class_name == "PessoaDetail": title = "Visualizar Pessoa"
-    elif class_name == "PessoaDelete": title = "Excluir Pessoa"
-    return title
-
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    context["title"] = self.get_title()
-    context["sidenav"] = settings.SIDENAV
-    return context
+from .models import MyContext, Pessoa
 
 class PessoaList(MyContext, ListView):
   model = Pessoa

@@ -12,7 +12,7 @@ class SignUpForm(forms.Form):
     help_text = "", 
     max_length = 255, 
     widget = forms.TextInput(
-      attrs = { "placeholder": "ex.: name@example.com" }
+      attrs = { "placeholder": "ex.: nome@email.com" }
     )
   )
   first_name = forms.CharField(
