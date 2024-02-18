@@ -58,8 +58,5 @@ def signin(request):
 			return render(request, "signin.html", { "form": form })
 
 def signout(request):
-	# if request.method == "GET":
-	# 	return render(request, "signout.html")
-	# else:
-		logout(request)
-		return HttpResponseRedirect(reverse("/"))
+	logout(request)
+	return HttpResponseRedirect(reverse("index"))
