@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% load django_bootstrap5 %}
+<html lang="pt-br">
+  {% include "head.html" %}
+	<body class="bg-primary">
+		<div id="layoutAuthentication">
+			<div class="container">
+				<div class="row justify-content-center">
+          {% block content %} CONTENT {% endblock %}
+				</div>
+			</div>
+			{% include "footer.html" %}
+		</div>
+	</body>
+</html>
