@@ -10,59 +10,15 @@
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-lg-7">
-                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card shadow-lg border-0 rounded-lg my-5">
                   <div class="card-header">
-                    <h3 class="text-center font-weight-light my-4">Cadastro</h3>
+                    <h3 class="text-center font-weight-light my-4">Cadastrar Conta</h3>
                   </div>
                   <div class="card-body">
                     {% load django_bootstrap5 %}
-
-                    <!-- {% include "alert_errors.html" %} -->
                     <form action="{% url 'signup' %}" method="post">
                       {% csrf_token %}
                       {% bootstrap_form form %}
-                      <!-- <div class="row mb-3">
-                        <div class="col-md-6">
-                          <div class="form-floating mb-3 mb-md-0">
-                            <input class="form-control" id="inputUsername" type="text" placeholder="Nome de Usuário para acesso" name="username" />
-                            <label for="inputUsername">Usuário</label>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-floating mb-3 mb-md-0">
-                            <input class="form-control" id="inputEmail" type="email" placeholder="Exemplo name@example.com" name="email" />
-                            <label for="inputEmail">Email</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <div class="col-md-6">
-                          <div class="form-floating mb-3 mb-md-0">
-                            <input class="form-control" id="inputFirstName" type="text" placeholder="Escreva seu nome" name="first_name" />
-                            <label for="inputFirstName">Nome</label>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-floating">
-                            <input class="form-control" id="inputLastName" type="text" placeholder="Escreva seu sobre nome" name="last_name" />
-                            <label for="inputLastName">Sobrenome</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <div class="col-md-6">
-                          <div class="form-floating mb-3 mb-md-0">
-                            <input class="form-control" id="inputPassword" type="password" placeholder="Escreva sua senha de acesso" name="password" />
-                            <label for="inputPassword">Senha</label>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-floating mb-3 mb-md-0">
-                            <input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Repita a senha para confirmação" name="confirm" />
-                            <label for="inputPasswordConfirm">Confirme a senha</label>
-                          </div>
-                        </div>
-                      </div> -->
                       <div class="mt-4 mb-0">
                         <div class="d-grid"><input class="btn btn-primary btn-block" type="submit" value="Criar a Conta" /></div>
                       </div>
