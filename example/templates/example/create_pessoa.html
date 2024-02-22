@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% load django_bootstrap5 %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.non_form_errors }}
+    {% bootstrap_form form %}
+
+    {{ formset.non_form_errors }}
+    {{ formset.management_form}}
+    
+    {% for form in formset.forms %}
+        
+      {% for field in form %}
+      <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+      </div>
+      {% endfor %}
+
+      <br><br>
+    {% endfor %} 
+
+
+    {% bootstrap_button button_type="submit" content="Salvar" %}
+    <a class="btn btn-secondary" href="{% url 'example:list' %}">Cancelar</a>
+  </form>
+{% endblock %}

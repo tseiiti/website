@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.urls import reverse_lazy
 
 class SignUpForm(forms.Form):
   username = forms.CharField(
@@ -9,7 +8,6 @@ class SignUpForm(forms.Form):
   )
   email = forms.EmailField(
     label = "E-mail", 
-    help_text = "", 
     max_length = 255, 
     widget = forms.TextInput(
       attrs = { "placeholder": "ex.: nome@email.com" }
