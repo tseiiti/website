@@ -25,7 +25,7 @@ class MyContext(ContextMixin):
 		context = super().get_context_data(**kwargs)
 		context["title"] = self.get_title()
 		context["sidenav"] = settings.SIDENAV
-		context["is_authenticated"] = self.request.user.is_authenticated
+		context["user"] = self.request.user
 		return context
 
 class Pessoa(models.Model):
