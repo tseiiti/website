@@ -6,7 +6,7 @@
   <div style="margin-left: 60px;">BDN <sup>1.0</sup></div>
 </a>
 
-{% if is_authenticated %}
+{% if user.is_authenticated %}
   <!-- Sidebar Toggle-->
   <button class="btn btn-link btn-sm order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 
@@ -23,7 +23,12 @@
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-        <li><a class="dropdown-item" href="#!">Settings</a></li>
+        <li>
+          <span class="dropdown-item">
+            <strong>{{ user.first_name }} {{ user.last_name }}</strong><br />
+            <sup>{{ user.email }}</sup>
+          </span>
+        </li>
         <li><a class="dropdown-item" href="#!">Activity Log</a></li>
         <li><hr class="dropdown-divider" /></li>
         <li><a class="dropdown-item" href="{% url 'signout' %}">Sair</a></li>
