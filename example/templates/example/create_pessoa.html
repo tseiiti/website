@@ -10,18 +10,19 @@
     {{ formset.non_form_errors }}
     {{ formset.management_form}}
     
+    <h5 class="card-title mt-5">Cadastro de Filhos</h5>
     {% for form in formset.forms %}
-        
-      {% for field in form %}
-      <div class="fieldWrapper">
-        {{ field.errors }}
-        {{ field.label_tag }} {{ field }}
+      <div class="card mb-3">
+        <div class="card-body">
+          {% for field in form %}
+            <div class="mb-3">
+              {{ field.errors }}
+              {{ field.label_tag }} {{ field }}
+            </div>
+          {% endfor %}
+        </div>
       </div>
-      {% endfor %}
-
-      <br><br>
     {% endfor %} 
-
 
     {% bootstrap_button button_type="submit" content="Salvar" %}
     <a class="btn btn-secondary" href="{% url 'example:list' %}">Cancelar</a>

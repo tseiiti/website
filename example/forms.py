@@ -1,10 +1,9 @@
 from django import forms
-# from django.forms import ModelForm, inlineformset_factory, formset_factory
-from .models import Pessoa, Filho
-
 from django.views.generic.base import ContextMixin
 from django.conf import settings
 import re
+
+from .models import Pessoa, Filho
 
 class MyContext(ContextMixin):
 	def get_title(self):
@@ -30,48 +29,26 @@ class MyContext(ContextMixin):
 		context["user"] = self.request.user
 		return context
 
-class PessoaForm(ContextMixin, forms.ModelForm):
-  class Meta:
-    model = Pessoa
-    fields = '__all__'
+class PessoaForm(forms.ModelForm):
+	class Meta:
+		model = Pessoa
+		fields = '__all__'
+		
+	email = forms.EmailField(label = "E-mail")
+	cpf = forms.CharField(label = "CPF")
 
-class FilhoForm(ContextMixin, forms.ModelForm):
-  class Meta:
-    model = Filho
-    # fields = '__all__'
-    fields = ('nome', 'dta_nasc')
+class FilhoForm(forms.ModelForm):
+	class Meta:
+		model = Filho
+		fields = ('nome', 'dta_nasc')
 
-# FilhoFormSet = inlineformset_factory(Pessoa, Filho, fields='__all__')
+	nome = forms.CharField(
+		max_length = 255,
+		widget = forms.TextInput(attrs = { "class": "form-control" })
+	)
+	dta_nasc = forms.DateField(
+		label = "Data de nascimento", 
+		widget = forms.DateInput(attrs = { "class": "form-control" })
+	)
+
 FilhoFormSet = forms.formset_factory(FilhoForm, extra=3)
-
-# formset = FilhoFormSet(
-#   initial = [
-#     { "nome": "teste", "dta_nasc": datetime.date.today() }
-# 	]
-# )
-
-
-
-# (
-#   parent_model: type[Model], 
-#   model: type[Model], 
-#   form: type[ModelForm] = ..., 
-#   formset: type[BaseInlineFormSet] = ..., 
-#   fk_name: str | None = ..., 
-#   fields: _Fields | None = ..., 
-#   exclude: _Fields | None = ..., 
-#   extra: int = ..., 
-#   can_order: bool = ..., 
-#   can_delete: bool = ..., 
-#   max_num: int | None = ..., 
-#   formfield_callback: ((...) -> Any) | None = ..., 
-#   widgets: dict[str, Any] | None = ..., 
-#   validate_max: bool = ..., 
-#   localized_fields: Sequence[str] | None = ..., 
-#   labels: dict[str, str] | None = ..., 
-#   help_texts: dict[str, str] | None = ..., 
-#   error_messages: dict[str, dict[str, str]] | None = ..., 
-#   min_num: int | None = ..., 
-#   validate_min: bool = ..., 
-#   field_classes: dict[str, Any] | None = ...
-# ) -> type[BaseInlineFormSet]

@@ -10,7 +10,7 @@ class Pessoa(models.Model):
 
 class Filho(models.Model):
 	nome = models.CharField(max_length = 255)
-	dta_nasc = models.DateField("data de nascimento")
+	dta_nasc = models.DateField()
 	pessoa = models.ForeignKey(Pessoa, on_delete=models.RESTRICT)
 
 	def __str__(self):

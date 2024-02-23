@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class SignUpForm(forms.Form):
   username = forms.CharField(
     label = "Usuário", 
-    max_length=255
+    max_length = 255
   )
   email = forms.EmailField(
     label = "E-mail", 
@@ -43,7 +43,7 @@ class SignUpForm(forms.Form):
 class SignInForm(forms.Form):
   username = forms.CharField(
     label = "Usuário", 
-    max_length=255
+    max_length = 255
   )
   password = forms.CharField(
     label = "Senha", 
