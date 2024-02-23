@@ -4,9 +4,9 @@ from django.urls import reverse_lazy
 from django.db import transaction
 
 from .models import Pessoa
-from .forms import PessoaForm, FilhoFormSet
+from .forms import MyContext, PessoaForm, FilhoFormSet
 
-class CreatePessoaView(CreateView):
+class CreatePessoaView(MyContext, CreateView):
 	template_name = 'example/create_pessoa.html'
 	model = Pessoa
 	form_class = PessoaForm
@@ -24,13 +24,6 @@ class CreatePessoaView(CreateView):
 		context = super().get_context_data(**kwargs)
 		context['formset'] = FilhoFormSet(initial=self.object)
 		return context
-	
-
-# formset = FilhoFormSet(
-#   initial = [
-#     { "nome": "teste", "dta_nasc": datetime.date.today() }
-# 	]
-# )
 
 	def form_valid(self, form, formset):
 		with transaction.atomic():
@@ -55,26 +48,23 @@ class CreatePessoaView(CreateView):
 	def form_invalid(self, form, formset):
 		return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
-
-
-
-class PessoaList(ListView):
+class PessoaList(MyContext, ListView):
 	model = Pessoa
 	queryset = Pessoa.objects.all()
 
-class PessoaCreate(CreateView):
+class PessoaCreate(MyContext, CreateView):
 	model = Pessoa
 	fields = "__all__"
 	success_url = reverse_lazy("example:list")
 
-class PessoaUpdate(UpdateView):
+class PessoaUpdate(MyContext, UpdateView):
 	model = Pessoa
 	fields = "__all__"
 	success_url = reverse_lazy("example:list")
 
-class PessoaDetail(DetailView):
+class PessoaDetail(MyContext, DetailView):
 	queryset = Pessoa.objects.all()
 
-class PessoaDelete(DeleteView):
+class PessoaDelete(MyContext, DeleteView):
 	queryset = Pessoa.objects.all()
 	success_url = reverse_lazy("example:list")
