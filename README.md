@@ -1,3 +1,7 @@
+Implantar no vercel:
+- cria conta no vercel;
+- dar acesso do repositório no vercel para criar o projeto e importar os programas;
+
 Pendências:
 - criar manuteção de tabela filho
 - nome do usuário em telas logada
