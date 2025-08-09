@@ -1,0 +1,19 @@
+- ambiente
+24.04.3-Ubuntu
+Python 3.12.3
+Postgres:16.3
+
+- .env
+POSTGRES_DATABASE=development
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=123456
+POSTGRES_HOST=localhost
+POSTGRES_DB_PORT=5432
+
+- instalar
+alias python='python3'
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
