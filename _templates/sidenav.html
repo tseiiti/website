@@ -1,15 +1,12 @@
-<div id="layoutSidenav_nav">
-  <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
-    <div class="sb-sidenav-menu">
-      <div class="nav">
-        {% for item in sidenav %}
-          {% include "sideitem.html" with item=item item_id=forloop.counter %}
-        {% endfor %}
-      </div>
-    </div>
-    <div class="sb-sidenav-footer">
-      <div class="small">Entrou como: </div>
-      {{ user.first_name }} {{ user.last_name }}
-    </div>
-  </nav>
-</div>
+{% load static %}
+<header>
+  <a href="/" class="brand-logo">
+    <img style="margin-left: -40px; margin-right: 8px;" height="24px" width="24px" src={% static "images/python.png" %}>
+    <span>Fatec Ipiranga</span>
+  </a>
+</header>
+<nav class="dashboard-nav-list">
+  {% for item in sidenav %}
+    {% include "sideitem.html" with item=item item_id=forloop.counter %}
+  {% endfor %}
+</nav>

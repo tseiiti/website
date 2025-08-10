@@ -5,28 +5,27 @@
   
   {% include "head.html" %}
 
-  <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-      {% include "topnav.html" %}
-    </nav>
+  <body>
+    <div class='dashboard'>
+      <div class="dashboard-nav">
+        {% include "sidenav.html" %}
+      </div>
 
-    <div id="layoutSidenav">
-      {% include "sidenav.html" %}
-      <div id="layoutSidenav_content">
-        <main>
-          <div class="container-fluid px-4">
+      <div class='dashboard-app'>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+          <div class="container-fluid">
+            {% include "topnav.html" %}
+          </div>
+        </nav>
+        
+        <div class='dashboard-content'>
+          <div class='container'>
             {% block before_content %}{% endblock %}
-            {% block title %}<h1 class="h3 mt-4 mb-0 text-gray-800">{{ title }}</h1>{% endblock %}
-            <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-              <li class="breadcrumb-item active">Sidenav Light</li>
-            </ol>
             {% bootstrap_messages %}
             {% block content %} CONTENT {% endblock %}
             {% block after_content %}{% endblock %}
           </div>
-        </main>
-        {% include "footer.html" %}
+        </div>
       </div>
     </div>
 

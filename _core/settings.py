@@ -122,23 +122,29 @@ STATIC_ROOT =  os.path.join(BASE_DIR, "static_files", "static")
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SIDENAV = [
-  { "type": "head", "name": "Configuração" },
-  { "type": "item", "name": "Admin", "icon": "cog", "link": "/admin" },
-  { "type": "menu", "name": "Temas", "icon": "palette", "links": [
-    { "desc": "Dark", "link": "javascript:document.querySelector('#layoutSidenav_nav nav').classList.remove('sb-sidenav-light');document.querySelector('#layoutSidenav_nav nav').classList.add('sb-sidenav-dark');" }, 
-    { "desc": "Light", "link": "javascript:document.querySelector('#layoutSidenav_nav nav').classList.remove('sb-sidenav-dark');document.querySelector('#layoutSidenav_nav nav').classList.add('sb-sidenav-light');" }, 
+  { "type": "item", "name": "Home", "icon": "home", "link": "/" },
+  { "type": "item", "name": "Dashboard", "icon": "tachometer-alt", "link": "#" },
+  { "type": "item", "name": "Upload", "icon": "file-upload", "link": "#" },
+  { "type": "dropdown", "name": "Media", "icon": "photo-video", "links": [
+    { "desc": "All", "link": "/example/list" }, 
+    { "desc": "Recent", "link": "#" }, 
+    { "desc": "Images", "link": "#" }, 
+    { "desc": "Video", "link": "#" }, 
   ]},
+  { "type": "dropdown", "name": "Users", "icon": "users", "links": [
+    { "desc": "All", "link": "/example/list" }, 
+    { "desc": "Subscribed", "link": "#" }, 
+    { "desc": "Non-subscribed", "link": "#" }, 
+    { "desc": "Banned", "link": "#" }, 
+    { "desc": "New</a></", "link": "#" }, 
+  ]},
+  { "type": "dropdown", "name": "Payments", "icon": "money-check-alt", "links": [
+    { "desc": "All", "link": "/example/list" }, 
+    { "desc": "Recent", "link": "#" }, 
+    { "desc": "Projections", "link": "#" }, 
+  ]}, 
+  { "type": "item", "name": "Settings", "icon": "cogs", "link": "/admin" },
+  { "type": "item", "name": "Profile", "icon": "user", "link": "#" },
   { "type": "divi" },
-  { "type": "head", "name": "Minhas páginas" },
-  { "type": "menu", "name": "Páginas", "icon": "folder", "links": [
-    { "desc": "Exemplo", "link": "/example/list" }, 
-    { "desc": "Geeks", "link": "#" }, 
-    { "desc": "Polls", "link": "#" }, 
-  ]},
-  { "type": "menu", "name": "Icones", "icon": "grin", "links": [
-    { "desc": "Regular", "link": "#" }, 
-    { "desc": "Solid", "link": "#" }, 
-    { "desc": "Brands", "link": "#" }, 
-  ]},
-  { "type": "divi" },
+  { "type": "item", "name": "Sair", "icon": "sign-out-alt", "link": "/signout" },
 ]
