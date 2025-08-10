@@ -1,6 +1,7 @@
-<!DOCTYPE html>
 {% load static %}
 {% load django_bootstrap5 %}
+
+<!DOCTYPE html>
 <html lang="pt-br">
   
   {% include "head.html" %}
@@ -30,8 +31,6 @@
       {% include "footer.html" %}
     </div>
     
-
-    <!-- Bootstrap JavaScript if it is in body -->
     {% if not 'javascript_in_head'|bootstrap_setting %}
       {% bootstrap_javascript %}
     {% endif %}
