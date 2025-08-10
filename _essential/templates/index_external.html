@@ -2,17 +2,14 @@
 {% load static %}
 {% load django_bootstrap5 %}
 <html lang="pt-br">
-
   {% include "head.html" %}
-
   <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        {% include "topnav.html" %}
-      </div>
-    </nav>
-
     <div class='dashboard'>
+      <nav class="navbar navbar-expand position-absolute" style="width: 100%;">
+        <div class="container-fluid">
+          {% include "topnav.html" %}
+        </div>
+      </nav>
       <div class='container'>
         <h1 class="h3 m-4 text-gray-800">{{ title }}</h1>
         <div class="card mb-4">
@@ -22,6 +19,7 @@
           </div>
         </div>
       </div>
+      {% include "footer.html" %}
     </div>
   
     <!-- Bootstrap JavaScript if it is in body -->

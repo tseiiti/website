@@ -2,10 +2,10 @@
 {% load django_bootstrap5 %}
 <html lang="pt-br">
   {% include "head.html" %}
-	<body class="bg-primary">
-		<div id="layoutAuthentication">
+	<body>
+    <div class="dashboard">
 			<div class="container">
-				<div class="row justify-content-center">
+				<div class="row d-flex justify-content-md-center align-items-center vh-100">
           {% block content %} CONTENT {% endblock %}
 				</div>
 			</div>
