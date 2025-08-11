@@ -1,23 +1,25 @@
-{% extends "base_sign.html" %}
+{% extends "base.html" %}
 {% load django_bootstrap5 %}
 
 {% block content %}
-<div class="col-lg-7 mb-5 pb-5">
-  <div class="card shadow-lg border-0 rounded-lg">
-    <div class="card-header">
-      <h3 class="text-center font-weight-light my-4">Cadastrar Conta</h3>
-    </div>
-    <div class="card-body">
-      <form action="{% url 'signup' %}" method="post">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <div class="mt-4 mb-0">
-					<div class="d-grid">{% bootstrap_button button_type="submit" extra_classes="btn-block" content="Criar a Conta" %}</div>
-        </div>
-      </form>
-    </div>
-    <div class="card-footer text-center py-3">
-      <div class="small"><a href="{% url 'signin' %}">Já possui uma conta? Vá para "Entrar"</a></div>
+<div class="row d-flex justify-content-center align-items-center">
+  <div class="col-7">
+    <div class="card shadow-lg border-0 rounded-lg">
+      <div class="card-header">
+        <h3 class="text-center font-weight-light my-4">Cadastrar Conta</h3>
+      </div>
+      <div class="card-body">
+        <form action="{% url 'signup' %}" method="post">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <div class="mt-4 mb-0">
+            <div class="d-grid">{% bootstrap_button button_type="submit" extra_classes="btn-block" content="Criar a Conta" %}</div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer text-center py-3">
+        <div class="small"><a href="{% url 'signin' %}">Já possui uma conta? Vá para "Entrar"</a></div>
+      </div>
     </div>
   </div>
 </div>

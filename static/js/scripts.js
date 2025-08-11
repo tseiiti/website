@@ -1,7 +1,7 @@
 function qs(arg) { return document.querySelector(arg) }
 function qsa(arg) { return document.querySelectorAll(arg) }
 
-// Controle de temas
+// controla de temas
 function setTheme(theme) {
   qs('html').dataset.bsTheme = theme;
   if (theme == 'dark') {
@@ -19,6 +19,7 @@ function setTheme(theme) {
 window.addEventListener('DOMContentLoaded', event => {
   if (localStorage.theme) setTheme(localStorage.theme);
 
+  // flechas collapse
   qs('#collapse-theme').addEventListener('show.bs.collapse', function () {
     let i = qs('.i-theme-arrow');
     i.classList.remove('fa-chevron-right');

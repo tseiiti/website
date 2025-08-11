@@ -1,0 +1,46 @@
+<div class="offcanvas-header pb-1">
+  {% if user.is_authenticated %}
+    <h3 class="mb-0">{{ user.first_name }} {{ user.last_name }}</h3>
+  {% endif %}
+  <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+</div>
+{% if user.is_authenticated %}
+  <p class="text-secondary my-0 mx-3 ps-1">
+    {{ user.email }}
+    <a class="d-flex justify-content-end text-secondary fst-italic" href="{% url 'signout' %}">Sair</a>
+  </p>
+{% endif %}
+
+<div class="offcanvas-body pt-0">
+  <hr>
+  <ul class="navbar-nav justify-content-end flex-grow-1 px-3">
+    <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home"></i>Home</a></li>
+    {% if user.is_authenticated %}
+      <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i>Link</a></li>
+      <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-file-upload"></i>Upload</a></li>
+    {% else %}
+      <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}"><i class="fas fa-tachometer-alt"></i>Entrar</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}"><i class="fas fa-user-plus"></i>Cadastrar</a></li>
+    {% endif %}
+    
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#collapse-theme" role="button" aria-expanded="false" aria-controls="collapse-theme">
+        <i class="fas fa-sun me-2 i-theme"></i>Temas<i class="fas fa-chevron-right ms-3 i-theme-arrow"></i>
+      </a>
+      <div class="collapse" id="collapse-theme">
+        <ul class="btn-toggle-nav list-unstyled">
+          <li>
+            <a class="nav-link" href="javascript: setTheme('light')">
+              <i class="fas fa-caret-right ms-4"></i>Light<i class="fas fa-sun ms-2"></i>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" href="javascript: setTheme('dark')">
+              <i class="fas fa-caret-right ms-4"></i>Dark<i class="fas fa-moon ms-2"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>

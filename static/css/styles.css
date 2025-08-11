@@ -1,3 +1,5 @@
-i.fas {
+/* padronizar lagura do ícone */
+ul.navbar-nav li.nav-item a.nav-link i.fas {
   min-width: 18px;
+  margin-right: 8px;
 }

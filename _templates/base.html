@@ -6,18 +6,18 @@
   
   {% include "head.html" %}
 
-  <body>
-    <main>
-      {% include "topnav.html" %}
-      
-      <div class="container my-4">
-        {% block before_content %}{% endblock %}
-        {% bootstrap_messages %}
-        {% block content %} CONTENT {% endblock %}
-        {% block after_content %}{% endblock %}
-      </div>
-    </main>
+  <body class="d-flex flex-column vh-100">
+    {% include "topnav.html" %}
     
+    <div class="container h-100 p-4">
+      {% block before_content %}{% endblock %}
+      {% bootstrap_messages %}
+      {% block content %} CONTENT {% endblock %}
+      {% block after_content %}{% endblock %}
+    </div>
+    
+    {% include "footer.html" %}
+
     {% if not 'javascript_in_head'|bootstrap_setting %}
       {% bootstrap_javascript %}
     {% endif %}
