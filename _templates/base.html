@@ -2,34 +2,21 @@
 {% load django_bootstrap5 %}
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-bs-theme="light">
   
   {% include "head.html" %}
 
   <body>
-    <div class='dashboard'>
-      <div class="dashboard-nav">
-        {% include "sidenav.html" %}
+    <main>
+      {% include "topnav.html" %}
+      
+      <div class="container my-4">
+        {% block before_content %}{% endblock %}
+        {% bootstrap_messages %}
+        {% block content %} CONTENT {% endblock %}
+        {% block after_content %}{% endblock %}
       </div>
-
-      <div class='dashboard-app'>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-          <div class="container-fluid">
-            {% include "topnav.html" %}
-          </div>
-        </nav>
-        
-        <div class='dashboard-content'>
-          <div class='container'>
-            {% block before_content %}{% endblock %}
-            {% bootstrap_messages %}
-            {% block content %} CONTENT {% endblock %}
-            {% block after_content %}{% endblock %}
-          </div>
-        </div>
-      </div>
-      {% include "footer.html" %}
-    </div>
+    </main>
     
     {% if not 'javascript_in_head'|bootstrap_setting %}
       {% bootstrap_javascript %}

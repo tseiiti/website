@@ -7,11 +7,11 @@
   </a>
 
 {% elif item.type == "dropdown" %}
-  <div class='dashboard-nav-dropdown'>
+  <div class="dashboard-nav-dropdown">
     <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
       <i class="fas fa-{{ item.icon }}"></i> {{ item.name }}
     </a>
-    <div class='dashboard-nav-dropdown-menu'>
+    <div class="dashboard-nav-dropdown-menu">
       {% for l in item.links %}
         <a href="{{ l.link }}" class="dashboard-nav-dropdown-item">{{ l.desc }}</a>
       {% endfor %}
