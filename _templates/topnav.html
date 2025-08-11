@@ -1,6 +1,11 @@
+{% load static %}
+
 <nav class="navbar bg-body-tertiary">
   <div class="container container-fluid">
-    <a class="navbar-brand" href="/">Big Data para Negócios</a>
+    <a class="navbar-brand p-0" href="/">
+      <img class="ms-3 me-2 mb-1" height="32px" width="32px" src={% static "images/python.png" %}>
+      Big Data para Negócios
+    </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" style="user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none;">
       <span class="navbar-toggler-icon"></span>
