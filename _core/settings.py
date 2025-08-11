@@ -138,13 +138,9 @@ SIDENAV = [
     { "desc": "Banned", "link": "#" }, 
     { "desc": "New</a></", "link": "#" }, 
   ]},
-  { "type": "dropdown", "name": "Payments", "icon": "money-check-alt", "links": [
-    { "desc": "All", "link": "/example/list" }, 
-    { "desc": "Recent", "link": "#" }, 
-    { "desc": "Projections", "link": "#" }, 
+  { "type": "dropdown", "name": "Temas", "icon": "sun i-theme", "links": [
+    { "desc": "Light<i class=\"fas fa-sun ms-2\"></i>", "link": "javascript: setTheme('light')" }, 
+    { "desc": "Dark<i class=\"fas fa-moon ms-2\"></i>", "link": "javascript: setTheme('dark')" }, 
   ]}, 
-  { "type": "item", "name": "Settings", "icon": "cogs", "link": "/admin" },
-  { "type": "item", "name": "Profile", "icon": "user", "link": "#" },
-  { "type": "divi" },
-  { "type": "item", "name": "Sair", "icon": "sign-out-alt", "link": "/signout" },
+  { "type": "item", "name": "Admin", "icon": "cogs", "link": "/admin" },
 ]

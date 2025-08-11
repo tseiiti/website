@@ -11,6 +11,7 @@
     
     <div class="container h-100 p-4">
       {% block before_content %}{% endblock %}
+      <h1 class="h3 text-gray-800">{{ title }}</h1>
       {% bootstrap_messages %}
       {% block content %} CONTENT {% endblock %}
       {% block after_content %}{% endblock %}

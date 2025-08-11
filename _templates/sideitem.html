@@ -1,21 +1,29 @@
 {% if item.type == "divi" %}
-  <div class="nav-item-divider"></div>
+  <hr>
 
 {% elif item.type == "item" %}
-  <a href="{{ item.link }}" class="dashboard-nav-item">
-    <i class="fas fa-{{ item.icon }}"></i> {{ item.name }}
-  </a>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ item.link }}">
+      <i class="fas fa-{{ item.icon }}"></i>{{ item.name }}
+    </a>
+  </li>
 
 {% elif item.type == "dropdown" %}
-  <div class="dashboard-nav-dropdown">
-    <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-      <i class="fas fa-{{ item.icon }}"></i> {{ item.name }}
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="collapse" href="#collapse-theme-{{ item_id }}" role="button" aria-expanded="false" aria-controls="collapse-theme-{{ item_id }}">
+      <i class="fas fa-{{ item.icon }}"></i>{{ item.name }}<i class="fas fa-chevron-right ms-3 i-theme-arrow"></i>
     </a>
-    <div class="dashboard-nav-dropdown-menu">
-      {% for l in item.links %}
-        <a href="{{ l.link }}" class="dashboard-nav-dropdown-item">{{ l.desc }}</a>
-      {% endfor %}
+    <div class="collapse" id="collapse-theme-{{ item_id }}">
+      <ul class="btn-toggle-nav list-unstyled">
+        {% for l in item.links %}
+          <li>
+            <a class="nav-link" href="{{ l.link }}">
+              <i class="fas fa-caret-right ms-4"></i>{{ l.desc | safe }}</i>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
-  </div>
+  </li>
   
 {% endif %}
