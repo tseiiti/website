@@ -82,32 +82,19 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-  {
-    'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-  },
-  {
-    'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-  },
-  {
-    'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-  },
-  {
-    'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-  },
+  { 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
+  { 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
+  { 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+  { 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = 'pt-br'
-
 TIME_ZONE = 'America/Sao_Paulo'
-
 USE_I18N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -123,16 +110,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SIDENAV = [
   { "type": "item", "name": "Home", "icon": "home", "link": "/" },
-  { "type": "item", "name": "Dashboard", "icon": "tachometer-alt", "link": "#" },
-  { "type": "item", "name": "Upload", "icon": "file-upload", "link": "#" },
+  { "type": "item", "name": "Admin", "icon": "cogs", "link": "/admin" },
+  { "type": "item", "name": "Example", "icon": "tachometer-alt", "link": "/example/list" },
+  { "type": "item", "name": "Dashboard", "icon": "tachometer-alt", "link": "https://app.powerbi.com/view?r=eyJrIjoiZDNkNjRjMmMtZGE2Mi00YmZhLTkzMzAtYWJkYzQzNmM4NDgyIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9" },
   { "type": "dropdown", "name": "Media", "icon": "photo-video", "links": [
-    { "desc": "All", "link": "/example/list" }, 
+    { "desc": "All", "link": "#" }, 
     { "desc": "Recent", "link": "#" }, 
     { "desc": "Images", "link": "#" }, 
     { "desc": "Video", "link": "#" }, 
   ]},
   { "type": "dropdown", "name": "Users", "icon": "users", "links": [
-    { "desc": "All", "link": "/example/list" }, 
+    { "desc": "All", "link": "#" }, 
     { "desc": "Subscribed", "link": "#" }, 
     { "desc": "Non-subscribed", "link": "#" }, 
     { "desc": "Banned", "link": "#" }, 
@@ -142,5 +130,4 @@ SIDENAV = [
     { "desc": "Light<i class=\"fas fa-sun ms-2\"></i>", "link": "javascript: setTheme('light')" }, 
     { "desc": "Dark<i class=\"fas fa-moon ms-2\"></i>", "link": "javascript: setTheme('dark')" }, 
   ]}, 
-  { "type": "item", "name": "Admin", "icon": "cogs", "link": "/admin" },
 ]
