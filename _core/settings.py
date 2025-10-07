@@ -112,19 +112,15 @@ SIDENAV = [
   { "type": "item", "name": "Home", "icon": "home", "link": "/" },
   { "type": "item", "name": "Admin", "icon": "cogs", "link": "/admin" },
   { "type": "item", "name": "Example", "icon": "tachometer-alt", "link": "/example/list" },
-  { "type": "item", "name": "Dashboard", "icon": "tachometer-alt", "link": "https://app.powerbi.com/view?r=eyJrIjoiZDNkNjRjMmMtZGE2Mi00YmZhLTkzMzAtYWJkYzQzNmM4NDgyIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9" },
   { "type": "dropdown", "name": "Media", "icon": "photo-video", "links": [
     { "desc": "All", "link": "#" }, 
     { "desc": "Recent", "link": "#" }, 
     { "desc": "Images", "link": "#" }, 
     { "desc": "Video", "link": "#" }, 
   ]},
-  { "type": "dropdown", "name": "Users", "icon": "users", "links": [
-    { "desc": "All", "link": "#" }, 
-    { "desc": "Subscribed", "link": "#" }, 
-    { "desc": "Non-subscribed", "link": "#" }, 
-    { "desc": "Banned", "link": "#" }, 
-    { "desc": "New</a></", "link": "#" }, 
+  { "type": "dropdown", "name": "Dashboards", "icon": "tachometer-alt", "links": [
+    { "desc": "Frame", "link": "/example/dashboard" }, 
+    { "desc": "New Tab", "link": "https://app.powerbi.com/view?r=eyJrIjoiZDNkNjRjMmMtZGE2Mi00YmZhLTkzMzAtYWJkYzQzNmM4NDgyIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9" }, 
   ]},
   { "type": "dropdown", "name": "Temas", "icon": "sun i-theme", "links": [
     { "desc": "Light<i class=\"fas fa-sun ms-2\"></i>", "link": "javascript: setTheme('light')" }, 
