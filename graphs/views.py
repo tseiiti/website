@@ -80,7 +80,8 @@ def temps(request):
 def view_dtl(request):
   return Response({'success': 409, 'message': 'api'})
 
-@api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+# @api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+@api_view(['GET', 'POST'])
 def view_temp(request):
   if request.method == 'GET':
     temp_obj = Temp.objects.all()
