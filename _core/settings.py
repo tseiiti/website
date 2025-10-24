@@ -16,7 +16,7 @@ SECRET_KEY = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ.keys() else 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ["DEBUG"] == "True" if "DEBUG" in os.environ.keys() else True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "192.168.15.11", ".vercel.app"]
 
 
 # Application definition
@@ -29,6 +29,7 @@ INSTALLED_APPS = [
   'django.contrib.messages',
   'django.contrib.staticfiles',
   'django_bootstrap5',
+  'rest_framework',
   '_essential',
   'example',
   'graphs',
