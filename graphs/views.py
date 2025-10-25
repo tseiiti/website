@@ -71,9 +71,24 @@ def graph_02(request):
 
 
 def temps(request):
-  params["title"] = "Temps"
+  params["title"] = "Temperaturas"
   params["user"] = request.user
-  # params["object_list"] = Temp.objects.order_by("-id")[:20]
+  tamanho = int(request.GET.get("tamanho") or "15")
+  params["tamanho"] = tamanho
+  total = Temp.objects.count()
+  total = int(total / tamanho) + (total % tamanho > 0)
+  page = int(request.GET.get("page") or "1")
+  params["page"] = {
+    '1': 1 if page > 1 else None,
+    '2': page - 3 if page - 3 > 1 else None,
+    '3': page - 2 if page - 2 > 1 else None,
+    '4': page - 1 if page - 1 > 1 else None,
+    '5': page,
+    '6': page + 1 if page + 1 < total else None,
+    '7': page + 2 if page + 2 < total else None,
+    '8': page + 3 if page + 3 < total else None,
+    '9': total if page < total else None,
+  }
   return render(request, "graphs/temps.html", params)
 
 @api_view()
@@ -86,8 +101,9 @@ def view_temp(request):
   if request.method == 'GET':
     page = request.GET.get("page")
     if page:
-      quant = int(request.GET.get("quant")) or 10
-      temp_obj = Temp.objects.order_by("-id")[:quant]
+      page     = int(page)
+      tamanho  = int(request.GET.get("tamanho")) or 10
+      temp_obj = Temp.objects.order_by("-id")[(page - 1) * tamanho:page * tamanho]
     else:
       temp_obj = Temp.objects.order_by("-id")
     serializer = TempSerializer(temp_obj, many=True)
