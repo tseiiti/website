@@ -3,8 +3,8 @@ from django.conf import settings
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Temp
-from .serializers import TempSerializer
+from graphs.models import Temp
+from graphs.serializers import TempSerializer
 
 import io
 import base64
@@ -73,7 +73,7 @@ def graph_02(request):
 def temps(request):
   params["title"] = "Temps"
   params["user"] = request.user
-  params["object_list"] = Temp.objects.order_by("-id")[:20]
+  # params["object_list"] = Temp.objects.order_by("-id")[:20]
   return render(request, "graphs/temps.html", params)
 
 @api_view()
@@ -84,7 +84,12 @@ def view_dtl(request):
 @api_view(['GET', 'POST'])
 def view_temp(request):
   if request.method == 'GET':
-    temp_obj = Temp.objects.all()
+    page = request.GET.get("page")
+    if page:
+      quant = int(request.GET.get("quant")) or 10
+      temp_obj = Temp.objects.order_by("-id")[:quant]
+    else:
+      temp_obj = Temp.objects.order_by("-id")
     serializer = TempSerializer(temp_obj, many=True)
     return Response({'msg': 'Successfully retrieved data', 'data': serializer.data}, status=status.HTTP_200_OK)
 
