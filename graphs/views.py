@@ -1,0 +1,140 @@
+from django.shortcuts import render
+from django.conf import settings
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from graphs.models import Temp
+from graphs.serializers import TempSerializer
+
+import io
+import base64
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from pymongo.mongo_client import MongoClient
+uri = settings.DATABASES['mongo']['URI']
+client = MongoClient(uri)
+dba = client['db_teste']
+
+params = { "sidenav": settings.SIDENAV }
+
+
+
+def powerbi(request):
+  params["title"] = "Power BI"
+  params["user"] = request.user
+  return render(request, "graphs/powerbi.html", params)
+
+def graph_01(request):
+  data = sns.load_dataset("iris")
+  plt.figure(figsize=(8, 6))
+  sns.scatterplot(x="sepal_length", y="sepal_width", hue="species", data=data)
+  plt.title("Iris Sepal Length vs. Width")
+
+  buffer = io.BytesIO()
+  plt.savefig(buffer, format='png')
+  buffer.seek(0)
+  plt.close()
+
+  image_png = buffer.getvalue()
+  graph = base64.b64encode(image_png)
+  graph = graph.decode('utf-8')
+
+  params["title"] = "Gráfico 01"
+  params["user"] = request.user
+  params["graph"] = graph
+
+  return render(request, "graphs/graph_01.html", params)
+
+def graph_02(request):
+  data = sns.load_dataset("iris")
+  plt.figure(figsize=(8, 6))
+  sns.scatterplot(x="sepal_length", y="sepal_width", hue="species", data=data)
+  plt.title("Iris Sepal Length vs. Width")
+
+  buffer = io.BytesIO()
+  plt.savefig(buffer, format='png')
+  buffer.seek(0)
+  plt.close()
+
+  image_png = buffer.getvalue()
+  graph = base64.b64encode(image_png)
+  graph = graph.decode('utf-8')
+
+  params["title"] = "Gráfico 01"
+  params["user"] = request.user
+  params["graph"] = graph
+
+  return render(request, "graphs/graph_01.html", params)
+
+
+
+
+def temps(request):
+  params["title"] = "Temperaturas"
+  params["user"] = request.user
+  tamanho = int(request.GET.get("tamanho") or "15")
+  params["tamanho"] = tamanho
+  total = Temp.objects.count()
+  total = int(total / tamanho) + (total % tamanho > 0)
+  page = int(request.GET.get("page") or "1")
+  params["page"] = {
+    '1': 1 if page > 1 else None,
+    '2': page - 3 if page - 3 > 1 else None,
+    '3': page - 2 if page - 2 > 1 else None,
+    '4': page - 1 if page - 1 > 1 else None,
+    '5': page,
+    '6': page + 1 if page + 1 < total else None,
+    '7': page + 2 if page + 2 < total else None,
+    '8': page + 3 if page + 3 < total else None,
+    '9': total if page < total else None,
+  }
+  return render(request, "graphs/temps.html", params)
+
+@api_view()
+def view_dtl(request):
+  return Response({'success': 409, 'message': 'api'})
+
+# @api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+@api_view(['GET', 'POST'])
+def view_temp(request):
+  if request.method == 'GET':
+    page = request.GET.get("page")
+    if page:
+      page     = int(page)
+      tamanho  = int(request.GET.get("tamanho")) or 10
+      temp_obj = Temp.objects.order_by("-id")[(page - 1) * tamanho:page * tamanho]
+    else:
+      temp_obj = Temp.objects.order_by("-id")
+    serializer = TempSerializer(temp_obj, many=True)
+    return Response({'msg': 'Successfully retrieved data', 'data': serializer.data}, status=status.HTTP_200_OK)
+
+  elif request.method == 'POST':
+    serializer = TempSerializer(data=request.data)
+    if serializer.is_valid():
+      serializer.save()
+      return Response({'msg': 'Temp created successfully', 'data': serializer.data}, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+  elif request.method == 'PUT':
+    temp_obj = Temp.objects.get(pk=request.data.get('id'))
+    serializer = TempSerializer(temp_obj, data=request.data)
+    if serializer.is_valid():
+      serializer.save()
+      return Response({'msg': 'Temp updated successfully', 'data': serializer.data}, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+  elif request.method == 'PATCH':
+    temp_obj = Temp.objects.get(pk=request.data.get('id'))
+    serializer = TempSerializer(temp_obj, data=request.data, partial=True)
+    if serializer.is_valid():
+      serializer.save()
+      return Response({'msg': 'Temp updated successfully', 'data': serializer.data}, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+  elif request.method == 'DELETE':
+    temp_obj = Temp.objects.get(pk=request.data.get('id'))
+    temp_obj.delete()
+    return Response({'msg': 'Temp deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
+  return Response({'msg': 'Invalid request method'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)

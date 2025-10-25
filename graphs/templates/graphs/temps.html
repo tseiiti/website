@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <nav class="float-end">
+    <ul class="pagination">
+      {% if page.1 %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page.1 }}&tamanho={{ tamanho }}">
+          <<
+        </a>
+      </li>
+      {% endif %}
+
+      {% if page.2 %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page.2 }}&tamanho={{ tamanho }}">
+          {{ page.2 }}
+        </a>
+      </li>
+      {% endif %}
+
+      {% if page.3 %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page.3 }}&tamanho={{ tamanho }}">
+          {{ page.3 }}
+        </a>
+      </li>
+      {% endif %}
+
+      {% if page.4 %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page.4 }}&tamanho={{ tamanho }}">
+          {{ page.4 }}
+        </a>
+      </li>
+      {% endif %}
+
+      <li class="page-item active">
+        <a class="page-link" href="javascript:void(0)">{{ page.5 }}</a>
+      </li>
+
+      {% if page.6 %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page.6 }}&tamanho={{ tamanho }}">
+          {{ page.6 }}
+        </a>
+      </li>
+      {% endif %}
+
+      {% if page.7 %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page.7 }}&tamanho={{ tamanho }}">
+          {{ page.7 }}
+        </a>
+      </li>
+      {% endif %}
+
+      {% if page.8 %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page.8 }}&tamanho={{ tamanho }}">
+          {{ page.8 }}
+        </a>
+      </li>
+      {% endif %}
+
+      {% if page.9 %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page.9 }}&tamanho={{ tamanho }}">
+          >>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+  <table class="table table-striped table-hover table-sm mt-3">
+    <thead>
+      <tr>
+        <th style="width:5%; text-align: center;">#</th>
+        <th style="width:20%; text-align: center;">IP</th>
+        <th style="width:20%; text-align: center;">Pai</th>
+        <th style="width:20%; text-align: center;">Endereço</th>
+        <th style="width:15%; text-align: center;">Temperatura</th>
+        <th style="width:30%; text-align: center;">Horário</th>
+      </tr>
+    </thead>
+    <tbody id="auto-tbody">
+    </tbody>
+  </table>
+  <script>
+    const formatDateTime = (txt) => {
+      let date = new Date(txt);
+      let year = date.getFullYear();
+      let month = String(date.getMonth() + 1).padStart(2, '0');
+      let day = String(date.getDate()).padStart(2, '0');
+      let hours = String(date.getHours()).padStart(2, '0');
+      let minutes = String(date.getMinutes()).padStart(2, '0');
+      let seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    }
+
+    const tableUpdate = (page, tamanho) => {
+      fetch(`/graphs/temp?page=${ page }&tamanho=${ tamanho }`)
+      .then((response) => response.json())
+      .then((result) => {
+        let html = ''
+        for (let object of result.data) {
+          let ip = object.ip
+          ip = ip.substr(ip.indexOf('.', ip.indexOf('.') + 1))
+          let pai = object.pai
+          html += `<tr>
+            <th style="text-align: center;">${ object.id }</th>
+            <td style="text-align: center;">xxx.xxx${ ip }</td>
+            <td style="text-align: center;">xx:xx:xx${ object.pai.substr(8) }</td>
+            <td style="text-align: center;">xx:xx:xx${ object.endereco.substr(8) }</td>
+            <td style="text-align: center;">${ object.temperatura }°C</td>
+            <td style="text-align: center;">${ formatDateTime(object.data_hora) }</td>
+          </tr>`
+        }
+        qs('#auto-tbody').innerHTML = html
+      })
+      .catch((error) => console.error(error))
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const page = urlParams.get('page') || 1; 
+    const tamanho = urlParams.get('tamanho') || 15; 
+
+    tableUpdate(page, tamanho)
+    var intervalId = null
+    clearInterval(intervalId)
+    if (page == 1) {
+      intervalId = setInterval(tableUpdate, 5000, page, tamanho);
+    }
+
+  </script>
+{% endblock %}

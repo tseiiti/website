@@ -16,7 +16,7 @@ SECRET_KEY = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ.keys() else 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ["DEBUG"] == "True" if "DEBUG" in os.environ.keys() else True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "192.168.15.11", ".vercel.app"]
 
 
 # Application definition
@@ -29,8 +29,10 @@ INSTALLED_APPS = [
   'django.contrib.messages',
   'django.contrib.staticfiles',
   'django_bootstrap5',
+  'rest_framework',
   '_essential',
-  'example'
+  'example',
+  'graphs',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +76,10 @@ DATABASES = {
     'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
     'HOST': os.getenv("POSTGRES_HOST"),
     'PORT': os.getenv("POSTGRES_DB_PORT") if "POSTGRES_DB_PORT" in os.environ.keys() else 5432,
+  },
+  'mongo': {
+    'ENGINE': 'djongo',
+    'URI': os.getenv("MONGO_URI"),
   }
 }
 
@@ -118,9 +124,12 @@ SIDENAV = [
     { "desc": "Images", "link": "#" }, 
     { "desc": "Video", "link": "#" }, 
   ]},
-  { "type": "dropdown", "name": "Dashboards", "icon": "tachometer-alt", "links": [
-    { "desc": "Frame", "link": "/example/dashboard" }, 
-    { "desc": "New Tab", "link": "https://app.powerbi.com/view?r=eyJrIjoiZDNkNjRjMmMtZGE2Mi00YmZhLTkzMzAtYWJkYzQzNmM4NDgyIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9" }, 
+  { "type": "dropdown", "name": "Dashboard", "icon": "tachometer-alt", "links": [
+    { "desc": "Power BI", "link": "/graphs/powerbi" }, 
+    { "desc": "Power BI New Tab", "link": "https://app.powerbi.com/view?r=eyJrIjoiZDNkNjRjMmMtZGE2Mi00YmZhLTkzMzAtYWJkYzQzNmM4NDgyIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9" }, 
+    { "desc": "Graph 01", "link": "/graphs/graph_01" }, 
+    { "desc": "Graph 02", "link": "/graphs/graph_02" }, 
+    { "desc": "Temperatura", "link": "/graphs/temps" }, 
   ]},
   { "type": "dropdown", "name": "Temas", "icon": "sun i-theme", "links": [
     { "desc": "Light<i class=\"fas fa-sun ms-2\"></i>", "link": "javascript: setTheme('light')" }, 
