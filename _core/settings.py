@@ -128,6 +128,8 @@ SIDENAV = [
     { "desc": "Power BI", "link": "/graphs/powerbi" }, 
     { "desc": "Power BI New Tab", "link": "https://app.powerbi.com/view?r=eyJrIjoiZDNkNjRjMmMtZGE2Mi00YmZhLTkzMzAtYWJkYzQzNmM4NDgyIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9" }, 
     { "desc": "Graph 01", "link": "/graphs/graph_01" }, 
+    { "desc": "Graph 02", "link": "/graphs/graph_02" }, 
+    { "desc": "Temperatura", "link": "/graphs/temps" }, 
   ]},
   { "type": "dropdown", "name": "Temas", "icon": "sun i-theme", "links": [
     { "desc": "Light<i class=\"fas fa-sun ms-2\"></i>", "link": "javascript: setTheme('light')" }, 
