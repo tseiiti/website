@@ -117,20 +117,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SIDENAV = [
   { "type": "item", "name": "Home", "icon": "home", "link": "/" },
   { "type": "item", "name": "Admin", "icon": "cogs", "link": "/admin" },
-  { "type": "item", "name": "Example", "icon": "tachometer-alt", "link": "/example/list" },
-  { "type": "dropdown", "name": "Media", "icon": "photo-video", "links": [
-    { "desc": "All", "link": "#" }, 
-    { "desc": "Recent", "link": "#" }, 
-    { "desc": "Images", "link": "#" }, 
-    { "desc": "Video", "link": "#" }, 
-  ]},
   { "type": "dropdown", "name": "Dashboard", "icon": "tachometer-alt", "links": [
     { "desc": "Power BI", "link": "/graphs/powerbi" }, 
     { "desc": "Power BI New Tab", "link": "https://app.powerbi.com/view?r=eyJrIjoiZDNkNjRjMmMtZGE2Mi00YmZhLTkzMzAtYWJkYzQzNmM4NDgyIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9" }, 
     { "desc": "Graph 01", "link": "/graphs/graph_01" }, 
     { "desc": "Graph 02", "link": "/graphs/graph_02" }, 
+  ]},
+  { "type": "dropdown", "name": "Iot", "icon": "network-wired", "links": [
     { "desc": "Temperatura", "link": "/graphs/temps" }, 
   ]},
+  { "type": "item", "name": "Example", "icon": "tachometer-alt", "link": "/example/list" },
   { "type": "dropdown", "name": "Temas", "icon": "sun i-theme", "links": [
     { "desc": "Light<i class=\"fas fa-sun ms-2\"></i>", "link": "javascript: setTheme('light')" }, 
     { "desc": "Dark<i class=\"fas fa-moon ms-2\"></i>", "link": "javascript: setTheme('dark')" }, 
