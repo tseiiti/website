@@ -64,14 +64,13 @@ def df_aux_03():
   return df
 
 def graph_aux(plt):
-  plt.show()
   buffer = io.BytesIO()
   plt.savefig(buffer, format='png')
   buffer.seek(0)
   plt.close()
 
-  image_png = buffer.getvalue()
-  graph = base64.b64encode(image_png)
+  image = buffer.getvalue()
+  graph = base64.b64encode(image)
   return graph.decode('utf-8')
 
 @login_required
@@ -80,7 +79,7 @@ def graph_01(request):
   df2 = df_aux_02()
 
   plt.figure(figsize=(9, 6))
-  sns.barplot(data=df2, x='city', y='count', hue="type", palette="dark", alpha=.6, ci = 0)
+  sns.barplot(data=df2, x='city', y='count', hue="type", palette="dark", alpha=.6, errorbar=('ci', 0))
   plt.title('Média de Processos e Cancelamentos por Mês')
   plt.xlabel('Cidades')
   plt.ylabel('')
