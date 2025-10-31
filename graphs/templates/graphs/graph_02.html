@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% include "graphs/menu.html" %}
+
+  <h1 class="h3 text-gray-800">{{ title_1 }}</h1>
+  <div class="dropdown">
+    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Cidade: {{ city }}
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="{{ request.path }}?city=CE">CE</a></li>
+      <li><a class="dropdown-item" href="{{ request.path }}?city=CO">CO</a></li>
+      <li><a class="dropdown-item" href="{{ request.path }}?city=EX">EX</a></li>
+      <li><a class="dropdown-item" href="{{ request.path }}?city=OL">OL</a></li>
+      <li><a class="dropdown-item" href="{{ request.path }}?city=SA">SA</a></li>
+      <li><a class="dropdown-item" href="{{ request.path }}?city=SU">SU</a></li>
+    </ul>
+  </div>
+  <div class="d-flex justify-content-center">
+    <img src='data:image/png;base64,{{graph}}'/>
+  </div>
+{% endblock %}

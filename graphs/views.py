@@ -8,6 +8,7 @@ from graphs.serializers import TempSerializer
 
 import io
 import base64
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -20,52 +21,126 @@ params = { "sidenav": settings.SIDENAV }
 
 
 
+def df_aux_01():
+  col = dba['population']
+  df = pd.DataFrame(col.find({}))
+  df = df[['city', 'date', 'count']]
+  df['type'] = df.apply(lambda x: 'Total' if 'total' in x['city'] else 'Cancelados', axis=1)
+  df['city'] = df.apply(lambda x: x['city'].replace('_total', '').replace('_cancel', '').upper(), axis=1)
+  return df
+
+def df_aux_02():
+  df = df_aux_01()
+  df = df.groupby(by=['type', 'city', df['date'].dt.to_period('M')], sort=False)['count'].sum().reset_index()
+  df['ano'] = df['date'].dt.year
+  df['mes'] = df['date'].dt.month
+  return df
+
+def df_aux_03():
+  df = df_aux_02()
+  df_ce = df.query("city == 'CE'").pivot_table(index='date', columns='type', values='count', fill_value=0).astype(int)
+  df_ce['ind'] = df_ce.apply(lambda x: round(x['Cancelados'] / x['Total'] * 100.0, 2), axis=1)
+  df_co = df.query("city == 'CO'").pivot_table(index='date', columns='type', values='count', fill_value=0).astype(int)
+  df_co['ind'] = df_co.apply(lambda x: round(x['Cancelados'] / x['Total'] * 100.0, 2), axis=1)
+  df_ex = df.query("city == 'EX'").pivot_table(index='date', columns='type', values='count', fill_value=0).astype(int)
+  df_ex['ind'] = df_ex.apply(lambda x: round(x['Cancelados'] / x['Total'] * 100.0, 2), axis=1)
+  df_ol = df.query("city == 'OL'").pivot_table(index='date', columns='type', values='count', fill_value=0).astype(int)
+  df_ol['ind'] = df_ol.apply(lambda x: round(x['Cancelados'] / x['Total'] * 100.0, 2), axis=1)
+  df_sa = df.query("city == 'SA'").pivot_table(index='date', columns='type', values='count', fill_value=0).astype(int)
+  df_sa['ind'] = df_sa.apply(lambda x: round(x['Cancelados'] / x['Total'] * 100.0, 2), axis=1)
+  df_su = df.query("city == 'SU'").pivot_table(index='date', columns='type', values='count', fill_value=0).astype(int)
+  df_su['ind'] = df_su.apply(lambda x: round(x['Cancelados'] / x['Total'] * 100.0, 2), axis=1)
+
+  df = pd.DataFrame({
+    'CE': df_ce['ind'],
+    'CO': df_co['ind'],
+    'EX': df_ex['ind'],
+    'OL': df_ol['ind'],
+    'SA': df_sa['ind'],
+    'SU': df_su['ind']
+  })
+  df = df.melt(var_name='cidade', value_name='Total')
+  return df
+
+def graph_aux(plt):
+  plt.show()
+  buffer = io.BytesIO()
+  plt.savefig(buffer, format='png')
+  buffer.seek(0)
+  plt.close()
+
+  image_png = buffer.getvalue()
+  graph = base64.b64encode(image_png)
+  return graph.decode('utf-8')
+
+def graph_01(request):
+  df1 = df_aux_01()
+  df2 = df_aux_02()
+
+  plt.figure(figsize=(9, 6))
+  sns.barplot(data=df2, x='city', y='count', hue="type", palette="dark", alpha=.6, ci = 0)
+  plt.title('Média de Processos e Cancelamentos por Mês')
+  plt.xlabel('Cidades')
+  plt.ylabel('')
+  plt.legend(title='')
+
+  params["user"] = request.user
+  params["items"] = df1.groupby('type')['count'].sum().sort_values(ascending=False).items()
+  params["graph"] = graph_aux(plt)
+  return render(request, "graphs/graph_01.html", params)
+
+def graph_02(request):
+  city = request.GET.get("city") or "SA"
+  df = df_aux_02().query(f"city == '{city}'")
+
+  plt.figure(figsize=(9, 6))
+  sns.set_theme(style="ticks", palette="pastel")
+  g = sns.boxplot(x="city", y="count", hue="type", data=df)
+  g.tick_params(bottom=False, labelbottom=False)
+  sns.despine(offset=10, trim=True)
+  plt.xlabel('')
+  plt.ylabel('')
+  plt.legend(title='')
+
+  params["title_1"] = f'Boxblot de Cancelamentos e Processos por Mês em "{ city }"'
+  params["user"] = request.user
+  params["graph"] = graph_aux(plt)
+  params["city"] = city
+  return render(request, "graphs/graph_02.html", params)
+
+def graph_03(request):
+  df_work = df_aux_01()
+  params["items"] = []
+  for city in ['CE', 'CO', 'EX', 'OL', 'SA', 'SU']:
+    df = df_work.query(f"city == '{city}'")
+    plt.figure(figsize=(9, 6))
+    df = df.pivot_table(index='date', columns='type', values='count', fill_value=0)
+    df.plot(kind='scatter', x='Total', y='Cancelados', s=32, alpha=.8, xlabel='Processos', ylabel='Cancelamentos')
+    plt.title(f'Dispersão da cidade "{ city }"')
+    plt.gca().spines[['top', 'right',]].set_visible(False)
+    params["items"].append(graph_aux(plt))
+    
+  params["title_1"] = f'Dispersão entre Processos e Cancelamentos por dia'
+  params["user"] = request.user
+  return render(request, "graphs/graph_03.html", params)
+
+def graph_04(request):
+  df = df_aux_03()
+  plt.figure(figsize=(12, 6))
+  sns.kdeplot(data=df, x='Total', hue='cidade', fill=True, palette='dark')
+  plt.xlabel('Índices')
+  plt.ylabel('')
+    
+  params["title_1"] = 'Comparando a densidade dos índices de cancelamento dos processos'
+  params["user"] = request.user
+  params["graph"] = graph_aux(plt)
+  return render(request, "graphs/graph_04.html", params)
+
+
 def powerbi(request):
   params["title"] = "Power BI"
   params["user"] = request.user
   return render(request, "graphs/powerbi.html", params)
-
-def graph_01(request):
-  data = sns.load_dataset("iris")
-  plt.figure(figsize=(8, 6))
-  sns.scatterplot(x="sepal_length", y="sepal_width", hue="species", data=data)
-  plt.title("Iris Sepal Length vs. Width")
-
-  buffer = io.BytesIO()
-  plt.savefig(buffer, format='png')
-  buffer.seek(0)
-  plt.close()
-
-  image_png = buffer.getvalue()
-  graph = base64.b64encode(image_png)
-  graph = graph.decode('utf-8')
-
-  params["title"] = "Gráfico 01"
-  params["user"] = request.user
-  params["graph"] = graph
-
-  return render(request, "graphs/graph_01.html", params)
-
-def graph_02(request):
-  data = sns.load_dataset("iris")
-  plt.figure(figsize=(8, 6))
-  sns.scatterplot(x="sepal_length", y="sepal_width", hue="species", data=data)
-  plt.title("Iris Sepal Length vs. Width")
-
-  buffer = io.BytesIO()
-  plt.savefig(buffer, format='png')
-  buffer.seek(0)
-  plt.close()
-
-  image_png = buffer.getvalue()
-  graph = base64.b64encode(image_png)
-  graph = graph.decode('utf-8')
-
-  params["title"] = "Gráfico 01"
-  params["user"] = request.user
-  params["graph"] = graph
-
-  return render(request, "graphs/graph_01.html", params)
 
 
 

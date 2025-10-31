@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% include "graphs/menu.html" %}
+
+  <h1 class="h3 text-gray-800">{{ title_1 }}</h1>
+  <div class="row">
+    {% for item in items %}
+      <div class="col-lg-6">
+        <img src='data:image/png;base64,{{item}}'/>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
