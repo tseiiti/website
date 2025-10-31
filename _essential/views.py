@@ -39,14 +39,18 @@ def signup(request):
 
 def signin(request):
 	if request.method == "GET":
-		return render(request, "signin.html", { "form": SignInForm })
+		return render(request, "signin.html", { "form": SignInForm, "next": request.GET.get("next") })
 	else:
 		username = request.POST.get("username")
 		password = request.POST.get("password")
+		next = request.POST.get("next")
 		user = authenticate(username=username, password=password)
 		if user:
 			login(request, user)
-			return redirect("example:list")
+			if next:
+				return redirect(next)
+			else:
+				return redirect("example:list")
 		else:
 			post = request.POST
 			form = SignInForm(post)
