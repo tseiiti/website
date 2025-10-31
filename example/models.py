@@ -1,10 +1,11 @@
 from django.db import models
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import ContextMixin
 from django.conf import settings
 import re
 
 
-class MyContext(ContextMixin):
+class MyContext(LoginRequiredMixin, ContextMixin):
 	def get_title(self):
 		title = None
 		sn = self.__class__.__name__

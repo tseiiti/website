@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.conf import settings
 from rest_framework import status
@@ -63,22 +64,22 @@ def df_aux_03():
   return df
 
 def graph_aux(plt):
-  plt.show()
   buffer = io.BytesIO()
   plt.savefig(buffer, format='png')
   buffer.seek(0)
   plt.close()
 
-  image_png = buffer.getvalue()
-  graph = base64.b64encode(image_png)
+  image = buffer.getvalue()
+  graph = base64.b64encode(image)
   return graph.decode('utf-8')
 
+@login_required
 def graph_01(request):
   df1 = df_aux_01()
   df2 = df_aux_02()
 
   plt.figure(figsize=(9, 6))
-  sns.barplot(data=df2, x='city', y='count', hue="type", palette="dark", alpha=.6, ci = 0)
+  sns.barplot(data=df2, x='city', y='count', hue="type", palette="dark", alpha=.6, errorbar=('ci', 0))
   plt.title('Média de Processos e Cancelamentos por Mês')
   plt.xlabel('Cidades')
   plt.ylabel('')
@@ -89,6 +90,7 @@ def graph_01(request):
   params["graph"] = graph_aux(plt)
   return render(request, "graphs/graph_01.html", params)
 
+@login_required
 def graph_02(request):
   city = request.GET.get("city") or "SA"
   df = df_aux_02().query(f"city == '{city}'")
@@ -108,6 +110,7 @@ def graph_02(request):
   params["city"] = city
   return render(request, "graphs/graph_02.html", params)
 
+@login_required
 def graph_03(request):
   df_work = df_aux_01()
   params["items"] = []
@@ -124,6 +127,7 @@ def graph_03(request):
   params["user"] = request.user
   return render(request, "graphs/graph_03.html", params)
 
+@login_required
 def graph_04(request):
   df = df_aux_03()
   plt.figure(figsize=(12, 6))
@@ -137,6 +141,7 @@ def graph_04(request):
   return render(request, "graphs/graph_04.html", params)
 
 
+@login_required
 def powerbi(request):
   params["title"] = "Power BI"
   params["user"] = request.user
