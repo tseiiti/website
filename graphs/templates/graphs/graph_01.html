@@ -1,5 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div><img src='data:image/png;base64,{{graph}}'/></div>
+  {% include "graphs/menu.html" %}
+  
+  <h1 class="h3 text-gray-800">Quantidade de Processos</h1>
+  <div class="d-flex justify-content-center">
+    {% for item in items %}
+      <div class="card m-3" style="width: 18rem;">
+        {% if item.0 == "Total" %}
+        <div class="card-header bg-info-subtle">
+          <h5 class="m-0"><i class="fas fa-thermometer-three-quarters"></i>
+        {% else %}
+        <div class="card-header bg-danger-subtle">
+          <h5 class="m-0"><i class="fas fa-thermometer-quarter"></i>
+        {% endif %}
+          {{ item.0 }}</h5>
+        </div>
+
+        <div class="card-body text-body-secondary">
+          <p class="card-text fs-1 fw-bold text-end">{{ item.1|floatformat:"-3g" }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <hr class="mt-5 mb-0">
+  <div class="d-flex justify-content-center">
+    <img src='data:image/png;base64,{{graph}}'/>
+  </div>
 {% endblock %}
