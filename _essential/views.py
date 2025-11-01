@@ -47,7 +47,7 @@ def signin(request):
 		user = authenticate(username=username, password=password)
 		if user:
 			login(request, user)
-			if next:
+			if next != None:
 				return redirect(next)
 			else:
 				return redirect("example:list")
