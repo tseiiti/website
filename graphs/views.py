@@ -28,6 +28,28 @@ def df_aux_01():
   df = df[['city', 'date', 'count']]
   df['type'] = df.apply(lambda x: 'Total' if 'total' in x['city'] else 'Cancelados', axis=1)
   df['city'] = df.apply(lambda x: x['city'].replace('_total', '').replace('_cancel', '').upper(), axis=1)
+
+  # pip = [
+  #   { '$project': {
+  #     'city': 1,
+  #     'date': 1,
+  #     'count': 1,
+  #     'type': { '$cond': {
+  #       'if': { '$regexMatch': { 'input': '$city', 'regex': 'total', 'options': 'i' } }, 'then': "Total",
+  #       'else': "Cancelados" }}, }},
+  #   { '$group': {
+  #     '_id': { 'city': '$city', 'type': '$type', 'date': '$date' },
+  #     'count': { '$sum': '$count' } }},
+  #   { '$project': {
+  #     '_id': 0,
+  #     'city': { '$toUpper': { '$substrCP': [ '$_id.city', 0, 2 ] } },
+  #     'type': '$_id.type',
+  #     'date': '$_id.date',
+  #     'count': 1, }},
+  #   { '$sort' : {
+  #     'city' : 1, 'type': -1 }},
+  # ]
+  # df = pd.DataFrame(dba['population'].aggregate(pip))
   return df
 
 def df_aux_02():
@@ -35,6 +57,32 @@ def df_aux_02():
   df = df.groupby(by=['type', 'city', df['date'].dt.to_period('M')], sort=False)['count'].sum().reset_index()
   df['ano'] = df['date'].dt.year
   df['mes'] = df['date'].dt.month
+
+  # pip = [
+  #   { '$project': {
+  #     'city': 1,
+  #     'count': 1,
+  #     'date': { '$dateToString': { 'format': '%Y-%m', 'date': '$date' } },
+  #     'ano': { '$dateToString': { 'format': '%Y', 'date': '$date' } },
+  #     'mes': { '$dateToString': { 'format': '%m', 'date': '$date' } },
+  #     'type': { '$cond': {
+  #       'if': { '$regexMatch': { 'input': '$city', 'regex': 'total', 'options': 'i' } }, 'then': "Total",
+  #       'else': "Cancelados" }}, }},
+  #   { '$group': {
+  #     '_id': { 'city': '$city', 'type': '$type', 'date': '$date', 'ano': '$ano', 'mes': '$mes' },
+  #     'count': { '$sum': '$count' } }},
+  #   { '$project': {
+  #     '_id': 0,
+  #     'city': { '$toUpper': { '$substrCP': [ '$_id.city', 0, 2 ] } },
+  #     'type': '$_id.type',
+  #     'date': '$_id.date',
+  #     'ano': '$_id.ano',
+  #     'mes': '$_id.mes',
+  #     'count': 1, }},
+  #   { '$sort' : {
+  #     'city' : 1, 'type': -1 }},
+  # ]
+  # df = pd.DataFrame(dba['population'].aggregate(pip))
   return df
 
 def df_aux_03():
@@ -140,8 +188,7 @@ def graph_04(request):
   params["graph"] = graph_aux(plt)
   return render(request, "graphs/graph_04.html", params)
 
-
-@login_required
+# @login_required
 def powerbi(request):
   params["title"] = "Power BI"
   params["user"] = request.user
