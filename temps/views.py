@@ -8,7 +8,7 @@ from temps.serializers import TempSerializer
 
 params = { "sidenav": settings.SIDENAV }
 
-def temps(request):
+def index(request):
   params["title"] = "Temperaturas"
   params["user"] = request.user
   tamanho = int(request.GET.get("tamanho") or "15")
@@ -27,7 +27,7 @@ def temps(request):
     '8': page + 3 if page + 3 < total else None,
     '9': total if page < total else None,
   }
-  return render(request, "temps/temps.html", params)
+  return render(request, "temps/index.html", params)
 
 @api_view()
 def view_dtl(request):
