@@ -101,7 +101,7 @@
     }
 
     const tableUpdate = (page, tamanho) => {
-      fetch(`/graphs/temp?page=${ page }&tamanho=${ tamanho }`)
+      fetch(`/temps/temp?page=${ page }&tamanho=${ tamanho }`)
       .then((response) => response.json())
       .then((result) => {
         let html = ''

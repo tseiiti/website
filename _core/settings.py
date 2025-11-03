@@ -29,6 +29,7 @@ INSTALLED_APPS = [
   '_essential',
   'example',
   'graphs',
+  'temps',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +126,7 @@ SIDENAV = [
     { "desc": "Power BI New Tab", "link": "https://app.powerbi.com/view?r=eyJrIjoiZDNkNjRjMmMtZGE2Mi00YmZhLTkzMzAtYWJkYzQzNmM4NDgyIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9" }, 
   ]},
   { "type": "dropdown", "name": "Iot", "icon": "network-wired", "links": [
-    { "desc": "Temperatura", "link": "/graphs/temps" }, 
+    { "desc": "Temperatura", "link": "/temps/temps" }, 
   ]},
   { "type": "item", "name": "Example", "icon": "tachometer-alt", "link": "/example/list" },
   { "type": "dropdown", "name": "Temas", "icon": "sun i-theme", "links": [
