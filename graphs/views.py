@@ -23,70 +23,33 @@ params = { "sidenav": settings.SIDENAV }
 
 
 def df_aux_01():
-  col = dba['population']
-  df = pd.DataFrame(col.find({}))
-  df = df[['city', 'date', 'count']]
-  df['type'] = df.apply(lambda x: 'Total' if 'total' in x['city'] else 'Cancelados', axis=1)
-  df['city'] = df.apply(lambda x: x['city'].replace('_total', '').replace('_cancel', '').upper(), axis=1)
-
-  # pip = [
-  #   { '$project': {
-  #     'city': 1,
-  #     'date': 1,
-  #     'count': 1,
-  #     'type': { '$cond': {
-  #       'if': { '$regexMatch': { 'input': '$city', 'regex': 'total', 'options': 'i' } }, 'then': "Total",
-  #       'else': "Cancelados" }}, }},
-  #   { '$group': {
-  #     '_id': { 'city': '$city', 'type': '$type', 'date': '$date' },
-  #     'count': { '$sum': '$count' } }},
-  #   { '$project': {
-  #     '_id': 0,
-  #     'city': { '$toUpper': { '$substrCP': [ '$_id.city', 0, 2 ] } },
-  #     'type': '$_id.type',
-  #     'date': '$_id.date',
-  #     'count': 1, }},
-  #   { '$sort' : {
-  #     'city' : 1, 'type': -1 }},
-  # ]
-  # df = pd.DataFrame(dba['population'].aggregate(pip))
-  return df
-
-def df_aux_02():
-  df = df_aux_01()
-  df = df.groupby(by=['type', 'city', df['date'].dt.to_period('M')], sort=False)['count'].sum().reset_index()
-  df['ano'] = df['date'].dt.year
-  df['mes'] = df['date'].dt.month
-
-  # pip = [
-  #   { '$project': {
-  #     'city': 1,
-  #     'count': 1,
-  #     'date': { '$dateToString': { 'format': '%Y-%m', 'date': '$date' } },
-  #     'ano': { '$dateToString': { 'format': '%Y', 'date': '$date' } },
-  #     'mes': { '$dateToString': { 'format': '%m', 'date': '$date' } },
-  #     'type': { '$cond': {
-  #       'if': { '$regexMatch': { 'input': '$city', 'regex': 'total', 'options': 'i' } }, 'then': "Total",
-  #       'else': "Cancelados" }}, }},
-  #   { '$group': {
-  #     '_id': { 'city': '$city', 'type': '$type', 'date': '$date', 'ano': '$ano', 'mes': '$mes' },
-  #     'count': { '$sum': '$count' } }},
-  #   { '$project': {
-  #     '_id': 0,
-  #     'city': { '$toUpper': { '$substrCP': [ '$_id.city', 0, 2 ] } },
-  #     'type': '$_id.type',
-  #     'date': '$_id.date',
-  #     'ano': '$_id.ano',
-  #     'mes': '$_id.mes',
-  #     'count': 1, }},
-  #   { '$sort' : {
-  #     'city' : 1, 'type': -1 }},
-  # ]
-  # df = pd.DataFrame(dba['population'].aggregate(pip))
+  pip = [
+    { '$project': {
+      'city': 1,
+      'type': 1,
+      'count': 1,
+      'date': { '$dateToString': { 'format': '%Y-%m', 'date': '$date' } },
+      'ano': { '$dateToString': { 'format': '%Y', 'date': '$date' } },
+      'mes': { '$dateToString': { 'format': '%m', 'date': '$date' } }, }},
+    { '$group': {
+      '_id': { 'city': '$city', 'type': '$type', 'date': '$date', 'ano': '$ano', 'mes': '$mes' },
+      'count': { '$sum': '$count' } }},
+    { '$project': {
+      '_id': 0,
+      'city': '$_id.city',
+      'type': '$_id.type',
+      'date': '$_id.date',
+      'ano': '$_id.ano',
+      'mes': '$_id.mes',
+      'count': 1, }},
+    { '$sort' : {
+      'city' : 1, 'type': -1 }},
+  ]
+  df = pd.DataFrame(dba['population'].aggregate(pip))
   return df
 
 def df_aux_03():
-  df = df_aux_02()
+  df = df_aux_01()
   df_ce = df.query("city == 'CE'").pivot_table(index='date', columns='type', values='count', fill_value=0).astype(int)
   df_ce['ind'] = df_ce.apply(lambda x: round(x['Cancelados'] / x['Total'] * 100.0, 2), axis=1)
   df_co = df.query("city == 'CO'").pivot_table(index='date', columns='type', values='count', fill_value=0).astype(int)
@@ -123,25 +86,36 @@ def graph_aux(plt):
 
 @login_required
 def graph_01(request):
-  df1 = df_aux_01()
-  df2 = df_aux_02()
+  df = df_aux_01()
 
   plt.figure(figsize=(9, 6))
-  sns.barplot(data=df2, x='city', y='count', hue="type", palette="dark", alpha=.6, errorbar=('ci', 0))
+  sns.barplot(data=df, x='city', y='count', hue="type", palette="dark", alpha=.6, errorbar=('ci', 0))
   plt.title('Média de Processos e Cancelamentos por Mês')
   plt.xlabel('Cidades')
   plt.ylabel('')
   plt.legend(title='')
 
+  pip = [
+    { '$group': {
+      '_id': { 'type': '$type' },
+      'count': { '$sum': '$count' } }},
+    { '$project': {
+      '_id': 0,
+      'type': '$_id.type',
+      'count': 1, }},
+    { '$sort' : {
+      'type': -1 }},
+  ]
+
   params["user"] = request.user
-  params["items"] = df1.groupby('type')['count'].sum().sort_values(ascending=False).items()
+  params["items"] = dba['population'].aggregate(pip)
   params["graph"] = graph_aux(plt)
   return render(request, "graphs/graph_01.html", params)
 
 @login_required
 def graph_02(request):
   city = request.GET.get("city") or "SA"
-  df = df_aux_02().query(f"city == '{city}'")
+  df = df_aux_01().query(f"city == '{city}'")
 
   plt.figure(figsize=(9, 6))
   sns.set_theme(style="ticks", palette="pastel")
@@ -160,7 +134,21 @@ def graph_02(request):
 
 @login_required
 def graph_03(request):
-  df_work = df_aux_01()
+  pip = [
+    { '$group': {
+      '_id': { 'city': '$city', 'type': '$type', 'date': '$date' },
+      'count': { '$sum': '$count' } }},
+    { '$project': {
+      '_id': 0,
+      'city': '$_id.city',
+      'type': '$_id.type',
+      'date': '$_id.date',
+      'count': 1, }},
+    { '$sort' : {
+      'city' : 1, 'type': -1 }},
+  ]
+  df_work = pd.DataFrame(dba['population'].aggregate(pip))
+  
   params["items"] = []
   for city in ['CE', 'CO', 'EX', 'OL', 'SA', 'SU']:
     df = df_work.query(f"city == '{city}'")
