@@ -127,6 +127,8 @@ SIDENAV = [
   ]},
   { "type": "dropdown", "name": "Iot", "icon": "network-wired", "links": [
     { "desc": "Temperatura", "link": "/temps/" }, 
+    { "desc": "WS Soap", "link": "/temps/my_soap" }, 
+    { "desc": "WS WSDL", "link": "/temps/my_soap?wsdl" }, 
   ]},
   { "type": "item", "name": "Example", "icon": "tachometer-alt", "link": "/example/list" },
   { "type": "dropdown", "name": "Temas", "icon": "sun i-theme", "links": [

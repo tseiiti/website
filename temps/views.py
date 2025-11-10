@@ -6,6 +6,12 @@ from rest_framework.decorators import api_view
 from temps.models import Temp
 from temps.serializers import TempSerializer
 
+from django.views.decorators.csrf import csrf_exempt
+from spyne.server.django import DjangoApplication
+from .services import soap_app
+
+my_soap = csrf_exempt(DjangoApplication(soap_app))
+
 params = { "sidenav": settings.SIDENAV }
 
 def index(request):
