@@ -8,4 +8,6 @@ urlpatterns = [
   path("graph_02", graph_02, name="graph_02"), 
   path("graph_03", graph_03, name="graph_03"), 
   path("graph_04", graph_04, name="graph_04"), 
+  path("graph_05", graph_05, name="graph_05"), 
+  path("graph_06", graph_06, name="graph_06"), 
 ]

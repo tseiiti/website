@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.conf import settings
-
+from datetime import datetime, timedelta
 import io
 import base64
 import pandas as pd
@@ -14,8 +14,6 @@ client = MongoClient(uri)
 dba = client['db_teste']
 
 params = { "sidenav": settings.SIDENAV }
-
-
 
 def df_aux_01():
   pip = [
@@ -43,7 +41,7 @@ def df_aux_01():
   df = pd.DataFrame(dba['population'].aggregate(pip))
   return df
 
-def df_aux_03():
+def df_aux_02():
   df = df_aux_01()
   df_ce = df.query("city == 'CE'").pivot_table(index='date', columns='type', values='count', fill_value=0).astype(int)
   df_ce['ind'] = df_ce.apply(lambda x: round(x['Cancelados'] / x['Total'] * 100.0, 2), axis=1)
@@ -113,8 +111,8 @@ def graph_02(request):
   df = df_aux_01().query(f"city == '{city}'")
 
   plt.figure(figsize=(9, 6))
-  sns.set_theme(style="ticks", palette="pastel")
-  g = sns.boxplot(x="city", y="count", hue="type", data=df)
+  sns.set_theme(style="ticks", palette="dark")
+  g = sns.boxplot(x="city", y="count", hue="type", data=df, boxprops=dict(alpha=.6))
   g.tick_params(bottom=False, labelbottom=False)
   sns.despine(offset=10, trim=True)
   plt.xlabel('')
@@ -147,9 +145,9 @@ def graph_03(request):
   params["items"] = []
   for city in ['CE', 'CO', 'EX', 'OL', 'SA', 'SU']:
     df = df_work.query(f"city == '{city}'")
-    plt.figure(figsize=(9, 6))
+    plt.figure(figsize=(8, 5))
     df = df.pivot_table(index='date', columns='type', values='count', fill_value=0)
-    df.plot(kind='scatter', x='Total', y='Cancelados', s=32, alpha=.8, xlabel='Processos', ylabel='Cancelamentos')
+    df.plot(kind='scatter', x='Total', y='Cancelados', xlabel='Processos', ylabel='Cancelamentos', c='Cancelados', cmap='flare')
     plt.title(f'Dispersão da cidade "{ city }"')
     plt.gca().spines[['top', 'right',]].set_visible(False)
     params["items"].append(graph_aux(plt))
@@ -160,13 +158,65 @@ def graph_03(request):
 
 @login_required
 def graph_04(request):
-  df = df_aux_03()
+  df = df_aux_02()
   plt.figure(figsize=(12, 6))
   sns.kdeplot(data=df, x='Total', hue='cidade', fill=True, palette='dark')
   plt.xlabel('Índices')
   plt.ylabel('')
     
   params["title_1"] = 'Comparando a densidade dos índices de cancelamento dos processos'
+  params["user"] = request.user
+  params["graph"] = graph_aux(plt)
+  return render(request, "graphs/graph_04.html", params)
+
+@login_required
+def graph_05(request):
+  city = request.GET.get("city") or "SA"
+  df = pd.DataFrame(dba['population'].find({'date': {'$gte': datetime.now() - timedelta(days=365)} ,'city': city}))
+  df = df.pivot_table(index='date', columns='type', values='count', fill_value=0)
+  plt.figure(figsize=(12, 6))
+  df['Total'].rolling(window=30).mean().plot(label='Total', color='darkblue', alpha=.6)
+  df['Cancelados'].rolling(window=30).mean().plot(label='Cancelados', color='darkred', alpha=.6)
+  plt.xlabel('mês')
+  plt.legend()
+  plt.grid(True)
+  
+  params["title_1"] = f'Comparando Cancelamentos e Processos em "{ city }"'
+  params["user"] = request.user
+  params["graph"] = graph_aux(plt)
+  return render(request, "graphs/graph_02.html", params)
+
+@login_required
+def graph_06(request):
+  pip = [
+  { '$match': {
+    'cancels': { '$exists': True }}}, 
+  { '$unwind': '$cancels' },
+  { '$unwind': '$cancels.types' },
+  { '$project': {
+    '_id': 0,
+    'type': '$cancels.types.type.name', }},
+  { '$group': {
+    '_id': { 'type': '$type' },
+    'count': { '$sum': 1 }}},
+  { '$project': {
+    '_id': 0,
+    'type': '$_id.type',
+    'count': 1, }},
+  { '$sort' : {
+    'count': -1 }},
+  ]
+  df = pd.DataFrame(dba['processes'].aggregate(pip))
+  _, ax = plt.subplots(figsize=(12, 7))
+  sns.barplot(data=df, x='count', y='type', ax=ax, color='darkred', alpha=.6)
+  # sns.barplot(data=df, x='count', y='type', ax=ax, orient="h", palette='rocket', legend=False)
+  plt.yticks(fontsize=12)
+  plt.xlabel('')
+  plt.ylabel('')
+  plt.tight_layout()
+
+
+  params["title_1"] = f'Motivos de Cancelamento'
   params["user"] = request.user
   params["graph"] = graph_aux(plt)
   return render(request, "graphs/graph_04.html", params)

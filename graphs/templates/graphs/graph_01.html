@@ -8,10 +8,10 @@
     {% for item in items %}
       <div class="card m-3" style="width: 18rem;">
         {% if item.type == "Total" %}
-        <div class="card-header bg-info-subtle">
+        <div class="card-header" style="background-color: #6f7ca8;">
           <h5 class="m-0"><i class="fas fa-thermometer-three-quarters"></i>
         {% else %}
-        <div class="card-header bg-danger-subtle">
+        <div class="card-header" style="background-color: #c4917a;">
           <h5 class="m-0"><i class="fas fa-thermometer-quarter"></i>
         {% endif %}
           {{ item.type }}</h5>
