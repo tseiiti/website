@@ -118,10 +118,7 @@ SIDENAV = [
   { "type": "item", "name": "Home", "icon": "home", "link": "/" },
   { "type": "item", "name": "Admin", "icon": "cogs", "link": "/admin" },
   { "type": "dropdown", "name": "Dashboard", "icon": "tachometer-alt", "links": [
-    { "desc": "Gráfico 01", "link": "/graphs/graph_01" }, 
-    { "desc": "Gráfico 02", "link": "/graphs/graph_02" }, 
-    { "desc": "Gráfico 03", "link": "/graphs/graph_03" }, 
-    { "desc": "Gráfico 04", "link": "/graphs/graph_04" }, 
+    { "desc": "Gráficos", "link": "/graphs/graph_01" }, 
     { "desc": "Power BI", "link": "/graphs/powerbi" }, 
     { "desc": "Power BI New Tab", "link": "https://app.powerbi.com/view?r=eyJrIjoiZDNkNjRjMmMtZGE2Mi00YmZhLTkzMzAtYWJkYzQzNmM4NDgyIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9" }, 
   ]},

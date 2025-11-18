@@ -103,7 +103,7 @@ def graph_01(request):
   params["user"] = request.user
   params["items"] = dba['population'].aggregate(pip)
   params["graph"] = graph_aux(plt)
-  return render(request, "graphs/graph_01.html", params)
+  return render(request, "graphs/cards.html", params)
 
 @login_required
 def graph_02(request):
@@ -123,10 +123,59 @@ def graph_02(request):
   params["user"] = request.user
   params["graph"] = graph_aux(plt)
   params["city"] = city
-  return render(request, "graphs/graph_02.html", params)
+  return render(request, "graphs/dropdown.html", params)
 
 @login_required
 def graph_03(request):
+  pip = [
+  { '$match': {
+    'cancels': { '$exists': True }}}, 
+  { '$unwind': '$cancels' },
+  { '$unwind': '$cancels.types' },
+  { '$project': {
+    '_id': 0,
+    'type': '$cancels.types.type.name', }},
+  { '$group': {
+    '_id': { 'type': '$type' },
+    'count': { '$sum': 1 }}},
+  { '$project': {
+    '_id': 0,
+    'type': '$_id.type',
+    'count': 1, }},
+  { '$sort' : {
+    'count': -1 }},
+  ]
+  df = pd.DataFrame(dba['processes'].aggregate(pip))
+  _, ax = plt.subplots(figsize=(12, 7))
+  sns.barplot(data=df, x='count', y='type', ax=ax, color='darkred', alpha=.6)
+  plt.yticks(fontsize=12)
+  plt.xlabel('')
+  plt.ylabel('')
+  plt.tight_layout()
+  params["title_1"] = f'Motivos de Cancelamento'
+  params["user"] = request.user
+  params["graph"] = graph_aux(plt)
+  return render(request, "graphs/basic.html", params)
+
+@login_required
+def graph_04(request):
+  city = request.GET.get("city") or "SA"
+  df = pd.DataFrame(dba['population'].find({'date': {'$gte': datetime.now() - timedelta(days=365)} ,'city': city}))
+  df = df.pivot_table(index='date', columns='type', values='count', fill_value=0)
+  plt.figure(figsize=(12, 7))
+  df['Total'].rolling(window=30).mean().plot(label='Total', lw=3, color='darkblue', alpha=.5)
+  df['Cancelados'].rolling(window=30).mean().plot(label='Cancelados', lw=3, color='darkred', alpha=.5)
+  plt.xlabel('')
+  plt.legend()
+  plt.grid(True)
+  
+  params["title_1"] = f'Comparando Cancelamentos e Processos em "{ city }"'
+  params["user"] = request.user
+  params["graph"] = graph_aux(plt)
+  return render(request, "graphs/dropdown.html", params)
+
+@login_required
+def graph_05(request):
   pip = [
     { '$group': {
       '_id': { 'city': '$city', 'type': '$type', 'date': '$date' },
@@ -154,10 +203,10 @@ def graph_03(request):
     
   params["title_1"] = f'Dispersão entre Processos e Cancelamentos por dia'
   params["user"] = request.user
-  return render(request, "graphs/graph_03.html", params)
+  return render(request, "graphs/items.html", params)
 
 @login_required
-def graph_04(request):
+def graph_06(request):
   df = df_aux_02()
   plt.figure(figsize=(12, 6))
   sns.kdeplot(data=df, x='Total', hue='cidade', fill=True, palette='dark')
@@ -167,59 +216,7 @@ def graph_04(request):
   params["title_1"] = 'Comparando a densidade dos índices de cancelamento dos processos'
   params["user"] = request.user
   params["graph"] = graph_aux(plt)
-  return render(request, "graphs/graph_04.html", params)
-
-@login_required
-def graph_05(request):
-  city = request.GET.get("city") or "SA"
-  df = pd.DataFrame(dba['population'].find({'date': {'$gte': datetime.now() - timedelta(days=365)} ,'city': city}))
-  df = df.pivot_table(index='date', columns='type', values='count', fill_value=0)
-  plt.figure(figsize=(12, 6))
-  df['Total'].rolling(window=30).mean().plot(label='Total', color='darkblue', alpha=.6)
-  df['Cancelados'].rolling(window=30).mean().plot(label='Cancelados', color='darkred', alpha=.6)
-  plt.xlabel('mês')
-  plt.legend()
-  plt.grid(True)
-  
-  params["title_1"] = f'Comparando Cancelamentos e Processos em "{ city }"'
-  params["user"] = request.user
-  params["graph"] = graph_aux(plt)
-  return render(request, "graphs/graph_02.html", params)
-
-@login_required
-def graph_06(request):
-  pip = [
-  { '$match': {
-    'cancels': { '$exists': True }}}, 
-  { '$unwind': '$cancels' },
-  { '$unwind': '$cancels.types' },
-  { '$project': {
-    '_id': 0,
-    'type': '$cancels.types.type.name', }},
-  { '$group': {
-    '_id': { 'type': '$type' },
-    'count': { '$sum': 1 }}},
-  { '$project': {
-    '_id': 0,
-    'type': '$_id.type',
-    'count': 1, }},
-  { '$sort' : {
-    'count': -1 }},
-  ]
-  df = pd.DataFrame(dba['processes'].aggregate(pip))
-  _, ax = plt.subplots(figsize=(12, 7))
-  sns.barplot(data=df, x='count', y='type', ax=ax, color='darkred', alpha=.6)
-  # sns.barplot(data=df, x='count', y='type', ax=ax, orient="h", palette='rocket', legend=False)
-  plt.yticks(fontsize=12)
-  plt.xlabel('')
-  plt.ylabel('')
-  plt.tight_layout()
-
-
-  params["title_1"] = f'Motivos de Cancelamento'
-  params["user"] = request.user
-  params["graph"] = graph_aux(plt)
-  return render(request, "graphs/graph_04.html", params)
+  return render(request, "graphs/basic.html", params)
 
 # @login_required
 def powerbi(request):
