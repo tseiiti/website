@@ -31,7 +31,7 @@ def signup(request):
 				password=post.get("password")
 			)
 			login(request, user)
-			return redirect("example:list")
+			return redirect("index")
 		
 		else:
 			form.add_error(None, "Erro(s) foram encontrado(s) ao criar a conta. Favor fazer a devidas correções e tentar novamente.")
@@ -50,7 +50,7 @@ def signin(request):
 			if next != "None":
 				return redirect(next)
 			else:
-				return redirect("example:list")
+				return redirect("index")
 		else:
 			post = request.POST
 			form = SignInForm(post)
