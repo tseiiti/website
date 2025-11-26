@@ -218,8 +218,9 @@ def graph_06(request):
   params["graph"] = graph_aux(plt)
   return render(request, "graphs/basic.html", params)
 
-# @login_required
+@login_required
 def powerbi(request):
   params["title"] = "Power BI"
   params["user"] = request.user
+  params["url"] = "https://app.powerbi.com/view?r=eyJrIjoiYTE1NjBiZmUtY2MxMi00MzNlLTkwN2YtODJlYzFkYTBiZjAzIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9"
   return render(request, "graphs/powerbi.html", params)
