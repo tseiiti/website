@@ -10,12 +10,12 @@ function on(arg, eve, func) {
 // controla de temas
 function setTheme(theme) {
   qs('html').dataset.bsTheme = theme;
+  let i = qs('.i-theme');
+  if (!i) return;
   if (theme == 'dark') {
-    let i = qs('.i-theme');
     i.classList.remove('fa-sun');
     i.classList.add('fa-moon');
   } else {
-    let i = qs('.i-theme');
     i.classList.remove('fa-moon');
     i.classList.add('fa-sun');
   }
