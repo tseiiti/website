@@ -120,7 +120,7 @@ SIDENAV = [
   { "type": "dropdown", "name": "Dashboard", "icon": "tachometer-alt", "links": [
     { "desc": "Gráficos", "link": "/graphs/graph_01" }, 
     { "desc": "Power BI", "link": "/graphs/powerbi" }, 
-    { "desc": "Power BI New Tab", "link": "https://app.powerbi.com/view?r=eyJrIjoiYTE1NjBiZmUtY2MxMi00MzNlLTkwN2YtODJlYzFkYTBiZjAzIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9" }, 
+    { "desc": "Power BI New Tab", "link": "https://app.powerbi.com/view?r=eyJrIjoiYTE1NjBiZmUtY2MxMi00MzNlLTkwN2YtODJlYzFkYTBiZjAzIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9&pageName=a071e78c8352212c6730" }, 
   ]},
   { "type": "dropdown", "name": "Iot", "icon": "network-wired", "links": [
     { "desc": "Temperatura", "link": "/temps/" }, 
