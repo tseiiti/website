@@ -36,19 +36,9 @@ window.addEventListener('DOMContentLoaded', event => {
 
     off_button.addEventListener('mouseenter', () => {
       clearTimeout(timeoutId);
-      objeto.show();
-    });
-
-    off_button.addEventListener('mouseleave', () => {
       timeoutId = setTimeout(() => {
-        if (!off_canvas.matches(':hover')) { 
-          objeto.hide();
-        }
-      }, 500);
-    });
-
-    off_canvas.addEventListener('mouseleave', () => {
-      objeto.hide();
+        objeto.show();
+      }, 100);
     });
   }
   
