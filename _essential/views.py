@@ -18,7 +18,6 @@ def signup(request):
 		post = request.POST
 		form = SignUpForm(post)
 		if form.is_valid():
-			# messages.success(request, 'You have successfully updated the status from open to Close')
 			user = User.objects.create_user(
 				username = post.get("username"),
 				email = post.get("email"),
