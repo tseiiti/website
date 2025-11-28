@@ -76,11 +76,13 @@
     <thead>
       <tr>
         <th style="width:5%; text-align: center;">#</th>
+        <th style="width:15%; text-align: center;">Nome</th>
         <th style="width:15%; text-align: center;">IP</th>
         <th style="width:10%; text-align: center;">Camada</th>
         <th style="width:15%; text-align: center;">Pai</th>
         <th style="width:15%; text-align: center;">Endereço</th>
         <th style="width:10%; text-align: center;">Temperatura</th>
+        <th style="width:10%; text-align: center;">Peso</th>
         <th style="width:10%; text-align: center;">Memória</th>
         <th style="width:30%; text-align: center;">Horário</th>
       </tr>
@@ -111,11 +113,13 @@
           let pai = object.pai
           html += `<tr>
             <th style="text-align: center;">${ object.id }</th>
+            <th style="text-align: center;">${ object.nome }</th>
             <td style="text-align: center;">xxx.xxx${ ip }</td>
             <td style="text-align: center;">${ object.camada }</td>
             <td style="text-align: center;">xx:xx:xx${ object.pai.substr(8) }</td>
             <td style="text-align: center;">xx:xx:xx${ object.endereco.substr(8) }</td>
             <td style="text-align: center;">${ object.temperatura }°C</td>
+            <td style="text-align: center;">${ object.peso }</td>
             <td style="text-align: center;">${ object.memoria }</td>
             <td style="text-align: center;">${ formatDateTime(object.data_hora) }</td>
           </tr>`
