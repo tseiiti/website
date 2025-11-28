@@ -29,6 +29,10 @@ window.addEventListener('DOMContentLoaded', event => {
 
   if (off_canvas) {
     objeto = bootstrap.Offcanvas.getOrCreateInstance(off_canvas);
+    
+    off_canvas.addEventListener('hidden.bs.offcanvas', () => {
+      off_button.disabled = false; 
+    });
   }
 
   if (off_button && objeto) {
@@ -36,9 +40,10 @@ window.addEventListener('DOMContentLoaded', event => {
 
     off_button.addEventListener('mouseenter', () => {
       clearTimeout(timeoutId);
+      off_button.disabled = true;
       timeoutId = setTimeout(() => {
         objeto.show();
-      }, 100);
+      }, 10);
     });
   }
   
@@ -55,4 +60,6 @@ window.addEventListener('DOMContentLoaded', event => {
     i.classList.remove('fa-chevron-down');
     i.classList.add('fa-chevron-right');
   });
+
+  window.dispatchEvent(new Event('resize'));
 });
