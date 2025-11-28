@@ -2,19 +2,21 @@
 
 
 <nav class="navbar bg-body-tertiary">
-  <button class="navbar-toggler mx-3 z-0 position-absolute" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  <div class="container-fluid">
+    <div>
+      <button id="off_button" class="btn btn-outline-secondary btn-sm mx-2" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#off_canvas" aria-controls="off_canvas">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <div class="container container-fluid">
-    <a class="navbar-brand" href="/">
-      <img class="mx-2 mb-1" height="32px" width="32px" src="{% static 'images/fatec.jpg' %}">
-      Big Data para Negócios
-    </a>
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="off_canvas">
+        {% include "sidenav.html" %}
+      </div>
 
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar">
-      {% include "sidenav.html" %}
+      <a class="navbar-brand" href="/">
+        <img class="mx-2 mb-1" height="32px" width="32px" src="{% static 'images/fatec.jpg' %}">
+        Big Data para Negócios
+      </a>
     </div>
   </div>
 </nav>
-

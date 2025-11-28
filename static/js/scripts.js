@@ -23,6 +23,35 @@ function setTheme(theme) {
 }
 
 window.addEventListener('DOMContentLoaded', event => {
+  const off_canvas = qs('#off_canvas');
+  const off_button = qs('#off_button');
+  let objeto;
+
+  if (off_canvas) {
+    objeto = bootstrap.Offcanvas.getOrCreateInstance(off_canvas);
+  }
+
+  if (off_button && objeto) {
+    let timeoutId;
+
+    off_button.addEventListener('mouseenter', () => {
+      clearTimeout(timeoutId);
+      objeto.show();
+    });
+
+    off_button.addEventListener('mouseleave', () => {
+      timeoutId = setTimeout(() => {
+        if (!off_canvas.matches(':hover')) { 
+          objeto.hide();
+        }
+      }, 500);
+    });
+
+    off_canvas.addEventListener('mouseleave', () => {
+      objeto.hide();
+    });
+  }
+  
   if (localStorage.theme) setTheme(localStorage.theme);
 
   // flechas collapse
