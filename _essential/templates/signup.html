@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 %}
 
 {% block content %}
 <div class="row justify-content-center align-items-center">
@@ -11,9 +10,33 @@
       <div class="card-body">
         <form action="{% url 'signup' %}" method="post">
           {% csrf_token %}
-          {% bootstrap_form form %}
+          
+          {% if form.non_field_errors %}
+            <ul class="list-unstyled text-danger">
+              {% for erro in form.non_field_errors %}
+                <li>{{ erro }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% for erro in field.errors %}
+                <small class="text-danger">{{ erro }}</small>
+              {% endfor %}
+              {% if field.help_text %}
+                <div class="form-text">
+                  <i>{{ field.help_text }}</i>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
           <div class="mt-4 mb-0">
-            <div class="d-grid">{% bootstrap_button button_type="submit" extra_classes="btn-block" content="Criar a Conta" %}</div>
+            <div class="d-grid">
+              <button class="btn btn-primary btn-block" type="submit">Criar a Conta</button>
+            </div>
           </div>
         </form>
       </div>
