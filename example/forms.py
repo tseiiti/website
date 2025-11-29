@@ -5,6 +5,7 @@ class PessoaForm(forms.Form):
   class Meta:
     model = Pessoa
     fields = '__all__'
+    field_classes = 'form-control'
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
