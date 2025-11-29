@@ -222,5 +222,5 @@ def graph_06(request):
 def powerbi(request):
   params["title"] = "Power BI"
   params["user"] = request.user
-  params["url"] = "https://app.powerbi.com/view?r=eyJrIjoiYTE1NjBiZmUtY2MxMi00MzNlLTkwN2YtODJlYzFkYTBiZjAzIiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9&pageName=a071e78c8352212c6730"
+  params["url"] = "https://app.powerbi.com/view?r=eyJrIjoiOTY4YTU1NTctYzI2Ny00MGMzLTliOTYtOWMyZDY3ZTM4NzI2IiwidCI6ImNmNzJlMmJkLTdhMmItNDc4My1iZGViLTM5ZDU3YjA3Zjc2ZiIsImMiOjR9&pageName=bedb49a8cb8e3ae01982"
   return render(request, "graphs/powerbi.html", params)
