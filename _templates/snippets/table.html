@@ -1,4 +1,3 @@
-
 <h6><a href="{% url 'example:create' %}">Novo Registro</a></h6>
 
 <table class="table table-striped table-hover table-sm mt-3">
@@ -13,13 +12,25 @@
   </thead>
   <tbody>
     {% for object in object_list %}
-      <tr>
-        <th scope="row" style="width:5%; text-align: center;">{{ object.id }}</th>
-        <td>{{ object }}</td>
-        <td style="width:5%; text-align: center;"><a href="{{url}}/detail/{{object.id}}/" title="Visualizar"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-        <td style="width:5%; text-align: center;"><a href="{{url}}/update/{{object.id}}/" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
-        <td style="width:5%; text-align: center;"><a href="{{url}}/delete/{{object.id}}/" title="Excluir"><i class="fa fa-trash-alt" aria-hidden="true"></i></a></td>
-      </tr>
+    <tr>
+      <th scope="row" style="width:5%; text-align: center;">{{ object.id }}</th>
+      <td>{{ object }}</td>
+      <td style="width:5%; text-align: center;">
+        <a href="{{url}}/detail/{{object.id}}/" title="Visualizar">
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </a>
+      </td>
+      <td style="width:5%; text-align: center;">
+        <a href="{{url}}/update/{{object.id}}/" title="Editar">
+          <i class="fa fa-edit" aria-hidden="true"></i>
+        </a>
+      </td>
+      <td style="width:5%; text-align: center;">
+        <a href="{{url}}/delete/{{object.id}}/" title="Excluir">
+          <i class="fa fa-trash-alt" aria-hidden="true"></i>
+        </a>
+      </td>
+    </tr>
     {% endfor %}
   </tbody>
 </table>

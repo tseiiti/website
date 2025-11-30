@@ -1,11 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {% load django_bootstrap5 %}
+
+{% if form.nome.errors %}
+    <ul class="errorlist">
+        {% for error in form.nome.errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
   <form method="post">
     {% csrf_token %}
-    {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content="Salvar" %}
+    {% if form.non_field_errors %}
+      <ul class="list-unstyled text-danger">
+        {% for erro in form.non_field_errors %}
+          <li>{{ erro }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    
+    {% include "example/bootstrap_input_text.html" with field=form.nome %}
+    {% include "example/bootstrap_input_text.html" with field=form.email %}
+    {% include "example/bootstrap_input_text.html" with field=form.cpf %}
+
+    <button class="btn btn-primary" type="submit">Salvar</button>
     <a class="btn btn-secondary" href="{% url 'example:list' %}">Cancelar</a>
   </form>
 {% endblock %}

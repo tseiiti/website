@@ -1,5 +1,4 @@
 {% load static %}
-{% load django_bootstrap5 %}
 
 <!DOCTYPE html>
 <html lang="pt-br" data-bs-theme="light">
@@ -14,16 +13,11 @@
       {% if title %}
         <h1 class="h3 text-gray-800">{{ title }}</h1>
       {% endif %}
-      {% bootstrap_messages %}
       {% block content %} CONTENT {% endblock %}
       {% block after_content %}{% endblock %}
     </div>
     
     {% include "footer.html" %}
-
-    {% if not 'javascript_in_head'|bootstrap_setting %}
-      {% bootstrap_javascript %}
-    {% endif %}
 
     {% block extra_script %}{% endblock %}
   </body>

@@ -1,11 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.urls import reverse_lazy
 
 class SignUpForm(forms.Form):
   username = forms.CharField(
     label = "Usuário", 
-    max_length=255
+    max_length = 255
   )
   email = forms.EmailField(
     label = "E-mail", 
@@ -31,7 +30,7 @@ class SignUpForm(forms.Form):
   confirm = forms.CharField(
     label = "Confirme a senha", 
     widget = forms.PasswordInput, 
-    help_text = "<i>Reescreva igualmente a senha para confirmação</i>"
+    help_text = "Reescreva igualmente a senha para confirmação"
   )
   
   def clean(self):
@@ -41,6 +40,13 @@ class SignUpForm(forms.Form):
     elif User.objects.filter(username=cd.get("username")).first():
       self.add_error("username", "Usuário já cadastrado")
     return cd
+  
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    for field in self.fields:
+      self.fields[field].widget.attrs['class'] = 'form-control'
+      if not 'placeholder' in self.fields[field].widget.attrs:
+        self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
 
 class SignInForm(forms.Form):
   username = forms.CharField(
@@ -51,3 +57,10 @@ class SignInForm(forms.Form):
     label = "Senha", 
     widget = forms.PasswordInput
   )
+  
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    for field in self.fields:
+      self.fields[field].widget.attrs['class'] = 'form-control form-control-lg'
+      if not 'placeholder' in self.fields[field].widget.attrs:
+        self.fields[field].widget.attrs['placeholder'] = self.fields[field].label

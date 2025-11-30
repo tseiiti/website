@@ -40,7 +40,6 @@ requirements.txt:
 ```
 asgiref==3.7.2
 Django==4.2.10
-django-bootstrap5==23.4
 psycopg2-binary==2.9.9
 sqlparse==0.4.4
 typing_extensions==4.9.0

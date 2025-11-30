@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import ContextMixin
+from django.urls import reverse_lazy
 from django.conf import settings
 import re
 
 
 class MyContext(LoginRequiredMixin, ContextMixin):
+	success_url = reverse_lazy("example:list")
 	def get_title(self):
 		title = None
 		sn = self.__class__.__name__
