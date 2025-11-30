@@ -1,22 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form method="post">{% csrf_token %}
-  
-        <div>
-            <label for="{{ form.nome.id_for_label }}">Field Name:</label>
-            {{ form.nome }}
-            {% if form.nome.errors %}
-                <ul class="errorlist">
-                    {% for error in form.nome.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-        
-    <input type="submit" value="Confirm">
-</form>
+
+{% if form.nome.errors %}
+    <ul class="errorlist">
+        {% for error in form.nome.errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
   <form method="post">
     {% csrf_token %}
@@ -27,20 +19,11 @@
         {% endfor %}
       </ul>
     {% endif %}
-    {% for field in form %}
-      <div class="mb-3">
-        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {{ field }}
-        {% for erro in field.errors %}
-          <small class="text-danger">{{ erro }}</small>
-        {% endfor %}
-        {% if field.help_text %}
-          <div class="form-text">
-            <i>{{ field.help_text }}</i>
-          </div>
-        {% endif %}
-      </div>
-    {% endfor %}
+    
+    {% include "example/bootstrap_input_text.html" with field=form.nome %}
+    {% include "example/bootstrap_input_text.html" with field=form.email %}
+    {% include "example/bootstrap_input_text.html" with field=form.cpf %}
+
     <button class="btn btn-primary" type="submit">Salvar</button>
     <a class="btn btn-secondary" href="{% url 'example:list' %}">Cancelar</a>
   </form>
