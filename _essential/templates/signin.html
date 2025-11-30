@@ -29,8 +29,8 @@
           {% endif %}
 					
 					<div class="form-check mb-3">
-						<input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" name="remember" />
-						<label class="form-check-label" for="inputRememberPassword">Lembrar da Senha</label>
+						<input class="form-check-input" id="id_remember" type="checkbox" value="" name="remember" />
+						<label class="form-check-label" for="id_remember">Lembrar da Senha</label>
 					</div>
 					<div class="d-flex align-items-center justify-content-between mt-4 mb-0">
 						<a class="small" href="#">Esqueceu a senha?</a>
@@ -45,4 +45,28 @@
 		</div>
 	</div>
 </div>
+<script>
+	const remember = qs('#id_remember');
+	const username = qs('#id_username');
+	const password = qs('#id_password');
+	
+	let remember_username = localStorage.getItem('remember_username');
+	let remember_password = localStorage.getItem('remember_password');
+	if (remember_username && remember_password) {
+		username.value = remember_username;
+		password.value = atob(remember_password);
+		remember.checked = true;
+	}
+
+	on("form", "submit", function(e) {
+		if (remember.checked) {
+			localStorage.setItem('remember_username', username.value);
+			localStorage.setItem('remember_password', btoa(password.value));
+		} else {
+			localStorage.removeItem('remember_username');
+			localStorage.removeItem('remember_password');
+		}
+	});
+
+</script>
 {% endblock %}
